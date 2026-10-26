@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鐵板神數批命</title><style>
+:root{--ink:#2b1d14;--red:#9b2d20;--paper:#f6efe1;--line:#c9b38c;--gold:#a8842f}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Serif TC","Songti TC","PMingLiU",serif;line-height:1.6}
+.wrap{max-width:860px;margin:auto;padding:16px}h1{text-align:center;color:var(--red);letter-spacing:.3em;margin:12px 0 4px;font-size:30px}
+.sub{text-align:center;color:#6b5a48;font-size:14px;margin-bottom:12px}
+.card{background:#fffaf0;border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h2{color:var(--red);font-size:19px;margin:0 0 10px;border-left:4px solid var(--red);padding-left:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+label{font-size:13px;color:#6b5a48;display:block}input,select{width:100%;padding:8px;font-size:16px;border:1px solid var(--line);border-radius:6px;background:#fff;font-family:inherit}
+button{background:var(--red);color:#fff;border:0;border-radius:6px;padding:11px 22px;font-size:17px;font-family:inherit;margin-top:12px;width:100%;letter-spacing:.3em}
+.pillars{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.p{flex:1 1 70px;max-width:110px;border:1px solid var(--line);border-radius:10px;text-align:center;padding:8px;background:var(--paper)}
+.p .l{font-size:12px;color:#8a7660}.p .c{font-size:34px;font-weight:700;line-height:1.3}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid #e3d5bb;padding:6px 4px;text-align:left;vertical-align:top}th{color:#6b5a48;font-weight:normal;font-size:13px}
+.hit{background:#f3e2c0}.miss{color:#b0563f}.note{font-size:13px;color:#6b5a48}a{color:var(--red);word-break:break-all}
+.gua{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.yao{width:90px}.yao div{height:9px;margin:7px 0;display:flex;justify-content:space-between}.yao span{background:var(--ink);height:9px;border-radius:2px}
+</style></head><body><div class="wrap">
+<h1>鐵板神數批命</h1><div class="sub">八字・大運・太玄數起卦・八刻條文・六親考刻</div>
+<div class="card"><h2>生辰輸入</h2><div class="grid">
+<div><label>陽曆年（1900–2100）</label><input id="y" type="number" value="1962"></div>
+<div><label>月</label><input id="mo" type="number" value="8"></div><div><label>日</label><input id="d" type="number" value="8"></div>
+<div><label>時（0–23）</label><input id="h" type="number" value="0"></div><div><label>分</label><input id="mi" type="number" value="10"></div>
+<div><label>性別</label><select id="sex"><option>男</option><option>女</option></select></div></div>
+<label style="margin-top:8px"><input id="zi" type="checkbox" style="width:auto"> 晚子時（23:00 後）即換日柱</label>
+<p class="note">考刻（選填）：填入已知六親，比對八刻條文，命中最多者標為真刻候選。</p><div class="grid">
+<div><label>父親生肖</label><select id="fa"></select></div><div><label>母親生肖</label><select id="mom"></select></div>
+<div><label>配偶生肖</label><select id="sp"></select></div><div><label>兄弟姊妹人數（含本人）</label><input id="sib" type="number"></div></div>
+<button id="go" type="button">排盤批命</button><p class="note">時間以 UTC+8 標準時間計，未作真太陽時校正。</p></div>
+<div id="nojs" class="card miss" style="font-weight:bold">若按鈕沒反應，請用 Safari 開啟此檔（目前的預覽模式可能停用了 JavaScript）。下方為範例 1962-08-08 00:10 男 的預先排盤結果。</div><noscript><div class="card miss">此預覽不支援 JavaScript，請用 Safari 開啟此檔。</div></noscript><div id="out"><div class="card"><h2>八字四柱</h2><div class="pillars"><div class="p"><div class="l">年柱</div><div class="c">壬<br>寅</div><div class="l">虎</div></div><div class="p"><div class="l">月柱</div><div class="c">丁<br>未</div><div class="l">羊</div></div><div class="p"><div class="l">日柱</div><div class="c">戊<br>寅</div><div class="l">虎</div></div><div class="p"><div class="l">時柱</div><div class="c">壬<br>子</div><div class="l">鼠</div></div></div><table><tbody><tr><th>陽曆</th><td>1962年8月8日 00:10（乾造）</td></tr><tr><th>農曆</th><td>一九六二年（壬寅年）七月初九</td></tr><tr><th>所在節令</th><td>小暑 1962-07-07 22:51 之後</td></tr><tr><th>下一個節</th><td>立秋 1962-08-08 08:33</td></tr><tr><th>子時</th><td>早子時，日柱依當日</td></tr></tbody></table></div><div class="card"><h2>大運</h2><p class="note">順排（陽男陰女）；起運：0 歲 1 個月 12 天（三日折一年）</p><table><tbody><tr><th>運</th><th>大運</th><th>起運歲（實歲）</th><th>起運年</th></tr><tr><td>第一運</td><td><b>戊申</b></td><td>0.1</td><td>1962</td></tr><tr><td>第二運</td><td><b>己酉</b></td><td>10.1</td><td>1972</td></tr><tr><td>第三運</td><td><b>庚戌</b></td><td>20.1</td><td>1982</td></tr><tr><td>第四運</td><td><b>辛亥</b></td><td>30.1</td><td>1992</td></tr><tr><td>第五運</td><td><b>壬子</b></td><td>40.1</td><td>2002</td></tr><tr><td>第六運</td><td><b>癸丑</b></td><td>50.1</td><td>2012</td></tr><tr><td>第七運</td><td><b>甲寅</b></td><td>60.1</td><td>2022</td></tr><tr><td>第八運</td><td><b>乙卯</b></td><td>70.1</td><td>2032</td></tr><tr><td>第九運</td><td><b>丙辰</b></td><td>80.1</td><td>2042</td></tr><tr><td>第十運</td><td><b>丁巳</b></td><td>90.1</td><td>2052</td></tr></tbody></table></div><div class="card"><h2>鐵板神數起數</h2><div class="gua"><div class="yao"><div><span style="width:42%"></span><span style="width:42%"></span></div><div><span style="width:100%"></span></div><div><span style="width:42%"></span><span style="width:42%"></span></div><div><span style="width:100%"></span></div><div><span style="width:100%"></span></div><div><span style="width:42%"></span><span style="width:42%"></span></div></div><table style="flex:1;min-width:220px"><tbody><tr><th>年數</th><td>壬6 + 寅7 = 13</td></tr><tr><th>月數</th><td>丁6 + 未8 = 14</td></tr><tr><th>本卦</th><td>坎上巽下・井</td></tr><tr><th>互卦</th><td>上互離・下互兌</td></tr><tr><th>基本數</th><td><b>2632</b></td></tr></tbody></table></div></div><div class="card"><h2>八刻條文</h2><p class="note">每刻 15 分鐘，逐刻加 1327；填入六親可考刻</p><table><tbody><tr><th>刻</th><th>條文號</th><th>條文</th><th>年齡註</th></tr><tr><td>初刻</td><td>2632</td><td>兄弟十一人，數有六貴。</td><td>51,52</td></tr><tr><td>二刻</td><td>3959</td><td>陽和風動，萬物發榮。</td><td>32</td></tr><tr><td>三刻</td><td>5286</td><td>瓜綿綿，長生根本。</td><td>—</td></tr><tr><td>四刻</td><td>6613</td><td>若問陽生何日止，一程直至六旬餘。</td><td>—</td></tr><tr><td>五刻</td><td>7940</td><td>命犯兇星，妻死煙炮中。</td><td>—</td></tr><tr><td>六刻</td><td>9267</td><td>鄉科捷報，天賜佳兒。</td><td>33,34</td></tr><tr><td>七刻</td><td>10594</td><td>雙喜臨門科場，得意兆熊羆。</td><td>39,40</td></tr><tr><td>八刻</td><td>11921</td><td>命歲不堅，八歲登仙。</td><td>8</td></tr></tbody></table></div></div>
+<div class="card"><h2>方法說明</h2><ol class="note">
+<li>四柱：年柱以立春、月柱以十二節交節時刻為界（節氣表 1899–2101 由 lunar-javascript／lunar-python 壽星萬年曆算法預算內嵌）；日柱以儒略日 (JD+49) mod 60；時柱五鼠遁。</li>
+<li>大運：陽男陰女順排、陰男陽女逆排；至下一節／上一節時差，三日折一年。</li>
+<li>起數：太玄數 甲己子午9、乙庚丑未8、丙辛寅申7、丁壬卯酉6、戊癸辰戌5、巳亥4；月數÷8得上卦、年數÷8得下卦（先天數，餘0作坤）。</li>
+<li>基本數：千位＝上卦數＋6取個位（遇10取上卦數）、百位＝上卦、十位＝上互卦、個位＝下互卦（書例丙申年庚寅月 → 山水蒙 3784）。</li>
+<li>八刻：每進一刻加 1327，超過 13000 減 12000。</li></ol>
+<p class="note">本工具為傳統文化研究與娛樂之用，不應作為重大決定依據。條文原文取自公開資料（簡轉繁），未作增補；內嵌此起數法可能產生的全部 256 個條文號。</p>
+<p class="note">資料來源：<br>https://tbss.bmfsm.net/algorithm<br>https://github.com/xaminxan/tiebanshenshu<br>https://archive.org/details/20250421_20250421_0120<br>https://github.com/6tail/lunar-javascript<br>https://tieban.auracraft.cc</p></div>
+</div><script>
+try{
+const F12 = [-518623, -476154, -433282, -389752, -345470, -300548, -255279, -210061, -165277, -121181, -77834, -35096];
+const RES = ">=;<=>ACEFECB@ADGJIHFEGIJKIE@;7447;ADEC@?@BEHHHFFEEEEEGHGFCBBCFHHE@=<<==>@CEFGHGGGIKJGC?=<<<>@BBBA>==?ACB@><<=?BDFGHFECCDGHEA;63468:;;::99;?CEFC?;:<?BDEDDCCBA@??>:6557;=??>>>ABBCFHJHE@:98:=>>>?@A@?=>???=;:<?DHJIHGGFFGHHHE?:546:>?>=;<>@CDEECA?>>AFJLKHEEEFFFEC@=;999;>@B@ACFIKLKJFC?><=?CFGFCA@@???@@AA@@??ADGGGGGILMNLHC=95359>BDC@=;<?BCA@?>?@BEGHHFECCDFIIE?966678;=>>@@@ABEFEA>;;;>@AAABBA?>>>??=;8668:<>BDFGFEEEFGEA<8679<=>=<;:89<@CC@<978<AEHHIIJIHGGFD?:769<@AA?=<>?ACEGHHEA>=?CFGGHHIIIGEB@?>;88:?BEGGFFHJJKKKKIE@=;;?CDDA@?>?@AA?>=:::>DJLLJHGGIIJIGB?;988:<??=;<>ACEEB?;:9;=AFIIHFDBABA@>;;:998::<>@@BCEHIJHE@=:978<@DEC@=98:==;9779;=@CEGHGEEEGIJHB<7679;=>?><===?BDB?:77;>CFGGFGFFEDDDB?;888;>?AACDFFGEFGFFC@==>BCFFEDCA@>?ABC@<988<@EGJKLLLKJKKJFA<:<@DGGD@===>?@CDB@<:;>DHKJHHIJLLIGC@=;97:=@BCA@@BCDECCBA?=<==ADFEB@???>==:865446;@EFEDCBCEFFDB?<::;=?@?<978:=>><843349>EIKJHGFDEEC@=;;;<<<====<<>@DFHGD?=<=>?BFJKJHFC@?@@=:88;=?ACFGHHFFFHKNMID?=?BDEFFDCA???AB@>967:@EILJIIIIIIJKJFA><<>ACBA@ABBBBBBA?=;;<@EHIHFEDCBA@AA@=:7568;>@ACEGGEDCDCA?<:<@EHHE@=:99:;<=<96326<BEEDBCEGHHFC?=;::=@BDC?;:;=>@?=;:99:<>BFGFEDCDDDB@<:8889:<@BCBB@@ABDEEDBAA@ADEGFEA??@ABA>:7546:?EJLLIGEFHJKIFCCDEFGFEDA@>?@BFGE@<99;?BFIKMLLJHFGFEA>;;=?AAA@BBCBA@BEFGEB??@CFHGFECB?=<=><952137=ACDCCCCCDFHGDA=;<?BCB@=<<<<<<<;96335;@DFFCAABCBCBBB@<:99;<====>@BAA@?@?=;<>BFJKIFBA@?>>>>=;9768<BEDCABDFHJJIGDCABCEIKJFB??@BCB@<988:=AEHHGEEEGJKJGDA@@@@ABCDDCA@?@ABB@???ABCEFHGFECBCDFEB>97557;?CEEDA??ADFEDBACEGIIHFC?<<=@CDB=61148;?ABDEEEEDEFEB>==>ADCB?=<==;;=>??<:8:<?CDDDCDDCB@@@><85559<?@>====>?CEGFCA??AEGGEDBABAAA@>;73149?DFEB@?ACEGJIIGEBAABDDB?@ACDEDC@><;;;?CHLLJHEEFEFDDCBA?=<<=ABBA@@BEGIHFEDCCCDGJLKJGB@BCDDA=:7569<>ABA@>?BFIJHDA??@BCEEDB@?==>>?=9767:<=??@@@AABDEFFB>:8888:=?@@?><;;>@@>>?@BDFFFEECA??BFGD@93026:=>>?@?@@BDGGEB?>AEHJHEBAAAAAAA@=:857:>BBAABCFFGGGGFEB>=>?ACBA?>??@?ACDCA??@BFIKJIIHIIHHGDA<8459>BDB?>=>@DFHIHGEDCDGIIGDBCEGGGD@<86557;@DDDB@ACFGGECBA@@@??@A@><<>?@AA?<;;<==?CFGGEDCCEFFB=964468;<=<;99;?DEDB><;=@BEFFEDAA@ABA?:53359;=>=<;;=?DGIHE@<;<>@AABCDDDBA@@?>;;;>ACFGFFFGGFFHKMLGB=:8;>@@@ABCCABEFFEB??@EJNOLJHGHHGHHFC=9669<@A@>>?BEGHGFCA?>>AEGGFDBBAAAA@?>>;:99<>@BBBDFHIIHFC@;8668=ABA>;999;=?@@@><==@DFFDCCEIJIGA<620026:?@>;9:<@CDB@>>?AABCDDCBA@ABCC@<86689;=@CDEEEEFHIIEA=<<<=?@@AAA?>>?CDB@=;;=@DHJKKKIHHHIJGB>999<>?@?>=<=@CHJIE@=<?CFIJJJKKJHFEDB?;88;?BDDBABCEGGHIKIFA=<<?ACCCBCBBA????>;879=BFGGFEEFGGGGEA=7336:>@>;889<>??=;8669<AFHGDCBCDDCC@<976557:==;;=ADFF";
+const LUN = "156a0097b0095c014ae00a9aa1a4c01b2a00caa90ad40135a00aba4095c014b6c149a01a4a01a4ab16a801ad4015b4412b60092ef092e0149601696a0d4a00da80156a9056c012ae00a5e4092e00cacc1a9401d4a00d52b0b5a0056c010dc7125c0191af192a01a9401b14d16aa00ad4014b6904ba0125a01a564152a016aae0d94016aa00a6ab09b4014b6008ae70a560153501d2a00d54015d4c156a0096c0155c814ae00a4c01e4c61b2a00b6ae0ad4012da009baa095a0149a01a9a81a4a01aab016a8016d4012b4d12b6009360152e814960164f40d4a00da8015e8c156c012ae0095ea092e00c9600e9461d4a00d6b00b580156c012daa125c0192c01b2a81a9401b4a00eaa40ad401576e04ba0125a01956a152a0169401754815aa00abb20974014b600a2ed0a560152600f2a80d54015aa00b6a4096c014dcc149c01a4c01d4ca1aa600b5400ed4612da0095f6095a0149a01a16d1a4a01aa401ba8a16b400ada00ab640936014aee14960154a0164ab0da4015b40096c7126e0093f0092e00c9600d14d1d4a00d64014d89155c0125c01a5c6192c01aaae1a9401b4a00baaa0ad4014da00aba80a5a015370152a01694016d4c15aa00ab401574814b600a560164e60d2600e66e0d54015aa0096ab096c014ae00a9c81a2c01d2d01aa401b5400d54d0ada0095c0153a8145a01a2a01e4a41aa401b64e";
+const TX = "1031=\u5E74\u7576\u5927\u6709\uFF0C\u5BCC\u9E97\u6642\u5149\u3002=40;1035=\u62D6\u6CE5\u5E36\u6C34\uFF0C\u5F81\u9014\u5D0E\u5D87\u3002=55;1073=\u72AC\u751F\u5169\u53E3\uFF0C\u8ACB\u541B\u8A73\u4E4B\u3002=21,22;1077=\u82B1\u67F3\u5982\u7D6E\uFF0C\u6625\u6A02\u5B9C\u4EBA\u3002=33,34;1302=\u5974\u50D5\u6210\u884C\uFF0C\u524D\u751F\u6240\u751F\u3002=;1306=\u5C71\u98A8\u8F49\u904E\uFF0C\u5C1A\u6709\u5C90\u9014\u3002=23,24;1344=\u982D\u9762\u6709\u8667\uFF0C\u524D\u751F\u5B7D\u5831\u3002=;1348=\u8CB4\u986F\u9AD8\u9580\uFF0C\u7956\u5B97\u907A\u9670\u3002=;1519=\u5929\u6388\u8861\u58EB\uFF0C\u6B78\u5B50\u53F8\u547D\u3002=;1523=\u6B0A\u91CD\u5929\u95DC\uFF0C\u5C71\u9AD8\u65E5\u5BFA\u3002=;1532=\u540D\u5229\u5169\u60A0\u60A0\uFF0C\u6625\u53BB\u53C8\u5FA9\u79CB\u3002=27,28;1536=\u4E0D\u898B\u821F\u4EBA\u672A\u6709\u4F86\uFF0C\u5927\u6C5F\u98A8\u96E8\u8239\u96E3\u958B\u3002=29,30;1561=\u834A\u68D8\u9EC3\u83EF\uFF0C\u52FE\u5EEC\u5728\u4F4D\u3002=;1565=\u660E\u6708\u7167\u524D\u5824\uFF0C\u5F81\u592B\u9732\u6EBC\u8863\u3002=23,24;1574=\u6771\u8F49\u897F\u884C\u662F\u5C71\u8E4A\uFF0C\u5F97\u9047\u6A35\u4EBA\u6307\u8DEF\u8FF7\u3002=25,26;1578=\u6DBC\u98A8\u5DF2\u8FD1\uFF0C\u4E00\u89E3\u7169\u7126\u723D\u6C23\u4F86\u3002=25,26;1710=\u5916\u7269\u4E0D\u53EF\u5FC5\uFF0C\u807D\u4E4B\u65AF\u6709\u5F97\u3002=53,54;1714=\u541E\u9677\u8207\u4EA1\u795E\uFF0C\u4F75\u529B\u76F8\u4FB5\u64FE\u3002=65,66;1746=\u7247\u5E06\u7121\u6059\uFF0C\u9577\u6C5F\u4E00\u5915\u9047\u6625\u98A8\u3002=27,28;1750=\u79CB\u8272\u863C\u856A\u8F49\u665A\u6DBC\uFF0C\u53EA\u9918\u9EC3\u83CA\u6EFF\u5EAD\u82B3\u3002=65,66;1752=\u7D93\u6069\u6FDF\u4EBA\uFF0C\u53CD\u62DB\u5176\u6028\u3002=;1756=\u98A8\u706B\u70C8\u6027\uFF0C\u6C7A\u7121\u6210\u5FC3\u3002=;1788=\u5EA6\u79E6\u5DBA\u95DC\uFF0C\u845B\u85E4\u7E1B\u8DB3\u3002=79,80;1792=\u547D\u4E2D\u591A\u821B\uFF0C\u5BB6\u696D\u6D88\u8017\u3002=53,54;2131=\u4EBA\u4E0D\u9042\u9EC3\u91D1\uFF0C\u9EC3\u91D1\u8F49\u9042\u4EBA\u3002=33,34;2135=\u4E09\u5834\u672A\u5E78\u767B\u79D1\u7532\uFF0C\u4E00\u8CA2\u627F\u6069\u53EF\u7267\u6C11\u3002=;2173=\u8CE2\u6DD1\u5927\u5EA6\uFF0C\u5EAD\u8A13\u6240\u7136\u3002=;2177=\u4E0D\u6B63\u800C\u6B63\uFF0C\u6843\u82B1\u958B\u904E\u8C54\u967D\u660E\u3002=;2629=\u6B64\u523B\u751F\u4EBA\uFF0C\u59BB\u5BAE\u5E36\u75BE\u3002=;2632=\u5144\u5F1F\u5341\u4E00\u4EBA\uFF0C\u6578\u6709\u516D\u8CB4\u3002=51,52;2633=\u62DB\u5F97\u6C34\u706B\u4E4B\u5B50\uFF0C\u59BB\u5DE7\u91D1\u571F\u65B9\u5408\u3002=;2636=\u5DF7\u8862\u9F13\u821E\u6A02\u582F\u5929\u3002=77,78;2671=\u91AB\u661F\u9AD8\u7167\uFF0C\u61F8\u58FA\u5F97\u540D\u3002=;2674=\u5EA6\u904E\u85E4\u6A4B\u8DEF\u5F91\u901A\uFF0C\u4EBA\u8072\u63A9\u6620\u7DA0\u9670\u4E2D\u3002=41;2675=\u671D\u5915\u8CD3\u58EB\uFF0C\u6101\u61F7\u83AB\u91CB\u3002=29;2678=\u767D\u8C55\u8CA0\u5857\uFF0C\u707D\u5165\u5BA4\u4E2D\u3002=50;2846=\u6666\u6C23\u76F8\u4FB5\uFF0C\u72C2\u98A8\u9A5F\u96E8\u3002=12,13;2850=\u521D\u4EFB\u4E3B\u4E8B\u4E4B\u8077\u3002=;2859=\u6D1B\u967D\u70BA\u5831\u5341\u5206\u6625\uFF0C\u694A\u67F3\u4F9D\u4F9D\u7DA0\u852D\u3002=19,20;2863=\u7AE5\u904B\u672A\u5805\uFF0C\u65E9\u5165\u9EC3\u6CC9\u3002=43;2888=\u7F8E\u904B\u8F3B\uFF0C\u8CA1\u5E1B\u76F8\u81FB\u3002=55,56;2892=\u4E00\u6B65\u5D0E\u5D87\uFF0C\u9AD8\u4F4E\u4E0D\u5E73\u3002=53,54;2901=\u79D1\u7532\u53CA\u7B2C\u3002=;2905=\u51B7\u843D\u96E2\u62AB\uFF0C\u96E8\u4E2D\u6843\u674E\u3002=39,40;3073=\u7267\u725B\u5357\u755D\uFF0C\u5C71\u4E0B\u798D\u8D77\u3002=41;3077=\u864E\u5E33\u4E4B\u5C0A\uFF0C\u60DF\u5A01\u60DF\u8D6B\u3002=;3115=\u7AAE\u9054\u7686\u7531\u547D\uFF0C\u6587\u7AE0\u679C\u8AA4\u4EBA\u3002=57,58;3119=\u4E09\u6625\u98A8\u96E8\u9806\uFF0C\u6625\u8272\u4E0A\u6B04\u6746\uFF0C=;3742=\u5176\u4EBA\u4E4B\u4EA1\uFF0C\u5B9A\u5728\u5341\u4E8C\u6708\u3002=;3746=\u59BB\u751F\u4E00\u5B50\uFF0C\u59BE\u751F\u4E00\u5152\u3002=41,42;3784=\u9577\u5B50\u6728\u5E74\u751F\uFF0C\u6B21\u5B50\u571F\u5E74\u751F\u65B9\u5408\u3002=;3788=\u6C34\u5E74\u6BCD\u7D42\u65B9\u5408\u6B64\u523B\u3002=;3956=\u597D\u6A39\u6ECB\u57F9\uFF0C\u6703\u6210\u6881\u6750\u3002=27;3959=\u967D\u548C\u98A8\u52D5\uFF0C\u842C\u7269\u767C\u69AE\u3002=32;3960=\u5B50\u4F54\u9AD8\u9B41\u3002=59,60;3963=\u5C11\u4E0A\u767D\u9AEE\u5FD7\u4E0D\u54C0\u3002=;3998=\u65AF\u6642\u59BB\u5B89\uFF0C\u4EA6\u662F\u5B89\u7136\u3002=71;4001=\u65AF\u6642\u904B\u5DF2\u901A\uFF0C\u505A\u4E8B\u5FC5\u6210\u529F\u3002=33,34;4002=\u81EA\u6210\u81EA\u7ACB\u81EA\u652F\u63F4\uFF0C\u53EF\u8B02\u9B1A\u7709\u5927\u4E08\u592B\u3002=;4005=\u60DF\u77E5\u52D9\u79AE\u5B9C\uFF0C\u5BB6\u664F\u5B89\u7136\u6A02\u3002=;4173=\u77E5\u5DF1\u76F8\u9047\uFF0C\u8DB3\u6170\u96E2\u6101\u3002=47,48;4177=\u6FE1\u6FE1\u50C5\u56FA\u5F97\u81EA\u5982\uFF0C\u5C11\u5E74\u5E38\u4F3C\u8001\u4F86\u6642\u3002=;4186=\u5144\u5F1F\u4E09\u4EBA\uFF0C\u594F\u695A\u4E0D\u540C\u76DF\u3002=;4190=\u5B58\u6148\u60B2\u5FC3\uFF0C\u7372\u4FEE\u9F4A\u5FD7\u3002=;4215=\u592B\u5165\u6CEE\u5BAE\u3002=51;4219=\u97F6\u5149\u65B0\u666F\uFF0C\u8DB3\u66A2\u6211\u61F7\u3002=69;4228=\u8DA8\u5409\u907F\u51F6\uFF0C\u9808\u77E5\u5409\u91CC\u85CF\u5147\u3002=21;4232=\u8A00\u884C\u4E0D\u8B39\u614E\uFF0C\u6709\u610F\u5916\u4E4B\u5371\u3002=29,30;4400=\u5E74\u9650\u5C07\u559C\uFF0C\u4E8B\u81EA\u76F8\u6493\u3002=37;4404=\u6069\u661F\u76F8\u7167\uFF0C\u516B\u5EA7\u4E4B\u69AE\u3002=;4421=\u5929\u6DAF\u7121\u53EF\u4F11\uFF0C\u6625\u53BB\u53C8\u5FA9\u79CB\u3002=49,50;4425=\u7576\u8CA2\u4E4B\u671F\u3002=43,44;4442=\u4E00\u8F2A\u660E\u6708\u7167\uFF0C\u7FBD\u5316\u4FBF\u767B\u4ED9\u3002=83,84;4446=\u592B\u7576\u767B\u79D1\uFF0C\u8001\u4F86\u4E4B\u69AE\u3002=65,66;4463=\u985B\u6C9B\u6709\u707D\uFF0C\u5BAE\u975E\u53C8\u4F86\u3002=72;4467=\u884C\u9580\u5230\u6C34\u8655\uFF0C\u6307\u65E5\u898B\u6CE2\u6FE4\u3002=38;4842=\u97F6\u5149\u834F\u82D2\u6613\u9577\u751F\u3002=12;4846=\u5144\u5F1F\u4E09\u4EBA\uFF0C\u6298\u4E86\u4E00\u500B\u3002=;4884=\u68C4\u53BB\u529F\u540D\u5FD7\uFF0C\u671D\u5915\u4F5C\u9592\u4EBA\u3002=;4888=\u807D\u51F1\u6B4C\u65BC\u8F09\u8DEF\uFF0C\u5609\u5353\u7570\u65BC\u4E5D\u91CD\u3002=53,54;5069=\u8863\u797F\u8C50\u76C8\uFF0C\u5BA4\u5BB6\u5B89\u5BE7\u3002=49,50;5073=\u7368\u5B88\u5B64\u71C8\uFF0C\u5FC3\u6B65\u6708\u758F\u3002=47,48;5111=\u501F\u554F\u4E00\u751F\u8EAB\u5916\u4E8B\uFF0C\u9047\u864E\u4E4B\u5E74\u662F\u6B78\u671F\u3002=;5115=\u6A5F\u6703\u76F8\u5F9E\uFF0C\u5B89\u5EB7\u60DF\u5146\u3002=23,24;5283=\u592B\u767B\u9EC3\u7532\u3002=59,60;5286=\u74DC\u7DBF\u7DBF\uFF0C\u9577\u751F\u6839\u672C\u3002=;5287=\u547C\u805A\u559D\u8072\uFF0C\u5A01\u6B0A\u81F3\u91CD\u3002=;5290=\u6B66\u66F2\u7167\u547D\uFF0C\u4E09\u5834\u4E2D\u9078\u3002=55,56;5325=\u5A5A\u5B9C\u9072\u9072\u4E43\u582A\u914D\uFF0C\u82E5\u65E9\u914D\u6642\u5B9A\u514B\u50B7\u3002=;5328=\u6578\u6709\u4E5D\u5B50\uFF0C\u56DB\u5B50\u9001\u8001\u3002=;5329=\u65E9\u5B50\u865B\u9072\u5B50\u5BE6\u3002=;5332=\u7AED\u529B\u671D\u9077\uFF0C\u8E34\u8E8D\u5F80\u524D\u3002=;5500=\u7121\u610F\u683D\u82B1\u82B1\u6B63\u767C\uFF0C\u6613\u6210\u6613\u7ACB\u4E0D\u6D88\u505C\u3002=13,14;5504=\u5357\u67EF\u592A\u5B88\u5922\u6B63\u9577\u3002=49,50;5513=\u6240\u6C42\u4E0D\u9042\uFF0C\u9032\u7576\u5FA9\u9000\u3002=31,32;5517=\u8B00\u672A\u6210\u6642\u5929\u6B32\u50AC\uFF0C\u6210\u6210\u5982\u5BC4\u798F\u767D\u96F2\u3002=21,22;5542=\u5B98\u81F3\u53C3\u653F\uFF0C\u4ED5\u9014\u8B8A\u5E7B\u3002=;5546=\u5927\u904B\u65E2\u4EA8\uFF0C\u76F8\u6642\u800C\u52D5\u3002=30;5555=\u53EA\u597D\u5B89\u9592\u5BB6\u88E1\u5750\uFF0C\u8C48\u77E5\u9580\u5916\u9B27\u8072\u56C2\u3002=79,80;5559=\u8CA1\u7834\u800C\u514D\u707D\uFF0C\u4E0D\u5E78\u4E2D\u6709\u5E78\u3002=13,14;5748=\u534A\u591C\u6F6E\u751F\u72AC\u4E0D\u9A5A\uFF0C\u4F46\u5F97\u8CA1\u805A\u53C8\u6210\u540D\u3002=41,42;5752=\u693F\u6A39\u5DF2\u6210\u98A8\u6728\u6068\uFF0C\u96E3\u514D\u4E09\u5E74\u6CE3\u8840\u60B2\u3002=13,14;5790=\u8A00\u884C\u4E0D\u8B39\u614E\uFF0C\u662F\u975E\u800C\u7834\u8CA1\u3002=47,48;5794=\u6240\u8B00\u4E0D\u5408\uFF0C\u5716\u4E4B\u4F55\u76CA\u3002=35,36;6169=\u5144\u5F1F\u4E5D\u4EBA\uFF0C\u6578\u6709\u4E00\u8CB4\u3002=;6173=\u798F\u58FD\u96D9\u5168\uFF0C\u7CBE\u795E\u500D\u723D\u3002=89,90;6211=\u5144\u5F1F\u4E5D\u4EBA\uFF0C\u4E2D\u65B7\u96E2\u7FA4\u3002=41,42;6215=\u81EA\u6709\u9AD8\u4EBA\u8F15\u501F\u529B\uFF0C\u5169\u81FA\u9580\u6236\u76E1\u5149\u8F1D\u3002=;6396=\u798F\u66DC\u76F8\u6276\uFF0C\u7576\u5C55\u5176\u7528\u3002=49,50;6400=\u4EBA\u96A8\u5929\u610F\uFF0C\u842C\u4E8B\u8CD9\u6FDF\u3002=;6438=\u4E00\u5B50\u864E\u5E74\u751F\u65B9\u5408\u3002=;6442=\u547D\u72AF\u767D\u864E\uFF0C\u592B\u7576\u53D7\u514B\u3002=15;6610=\u798D\u60A3\u63A5\u8E35\u4F86\uFF0C\u5E78\u6709\u5409\u4EBA\u6276\u3002=29,30;6613=\u82E5\u554F\u967D\u751F\u4F55\u65E5\u6B62\uFF0C\u4E00\u7A0B\u76F4\u81F3\u516D\u65EC\u9918\u3002=;6614=\u98A8\u6372\u71C8\u82B1\u6697\u53C8\u660E\uFF0C\u6416\u6416\u4E0D\u5B9A\u5F71\u7E31\u6A6B\u3002=71,72;6617=\u8B1D\u537B\u4EBA\u9593\u4E8B\uFF0C\u5E38\u7D0D\u798E\u7965\u798F\u3002=73;6652=\u821F\u696B\u6CE2\u6FE4\u6E67\uFF0C\u4EBA\u5728\u5371\u96AA\u884C\u3002=59,60;6655=\u7E5A\u4E82\u9B22\u9AEE\u7121\u5FC3\u7406\uFF0C\u6C89\u541F\u6731\u6236\u61F6\u91CD\u958B\u3002=51,52;6656=\u4E00\u751F\u5E7E\u6210\u6557\uFF0C\u5E78\u8667\u7B4B\u9AA8\u931A\u3002=;6659=\u597D\u82B1\u672A\u958B\uFF0C\u9023\u906D\u98A8\u96E8\u3002=13;6840=\u9022\u5B50\u5E74\u5FC5\u53EF\u767C\u8D8A\u3002=;6844=\u66C9\u65E5\u4E94\u96F2\u9AD8\uFF0C\u83EF\u7B75\u96C6\u4ED9\u6843\u3002=79,80;6882=\u65E5\u8F49\u5357\u6A13\u591C\u672A\u5149\uFF0C\u5B50\u898F\u557C\u8655\u65B7\u809D\u8178\u3002=48;6886=\u6642\u4E4E\u9806\u6642\u4E4E\uFF0C\u9006\u4E3B\u707D\u6666\u9047\u3002=51,52;7075=\u4E00\u5E74\u4E8C\u9806\uFF0C\u8001\u4F86\u4E4B\u69AE\u3002=63;7079=\u83AB\u4EE5\u6709\u5973\u5ACC\u6578\uFF0C\u4E2D\u539F\u7121\u5B50\u606F\u3002=;7111=\u6F2B\u9053\u897F\u6E56\u597D\uFF0C\u4EBA\u6709\u8DEF\u5D0E\u5D87\u3002=35,36;7115=\u91D1\u5E74\u514B\u59BB\uFF0C\u6C34\u5E74\u518D\u5A36\u3002=24;7117=\u52E4\u5109\u6301\u5BB6\u8863\u797F\u8DB3\uFF0C\u665A\u5E74\u8DE8\u7076\u6709\u5152\u90CE\u3002=53;7121=\u8499\u96E8\u9023\u591C\u843D\uFF0C\u5148\u58D3\u4E00\u679D\u8431\u3002=55;7153=\u7B11\u715E\u5F9E\u524D\u7E3D\u662F\u7A7A\uFF0C\u4ECA\u671D\u5225\u53BB\u53C8\u4F55\u5982\u3002=80;7157=\u9032\u4E94\u9000\u56DB\uFF0C\u53EA\u5F97\u5176\u4E00\u3002=34;7496=\u9435\u7B46\u4E00\u679D\u5BEB\u4EBA\u9593\uFF0C\u91D1\u9322\u4E09\u500B\u9810\u4E7E\u5764\u3002=;7500=\u7236\u547D\u5C6C\u86C7\uFF0C\u65B9\u5408\u6B64\u523B\u3002=;7538=\u6578\u4E2D\u5341\u4E8C\u5B50\uFF0C\u56DB\u5B50\u9001\u8001\u3002=;7542=\u8DEF\u9014\u6709\u5D0E\u5D87\uFF0C\u5E78\u5F97\u6F01\u4EBA\u5F15\u3002=46;7723=\u8CA1\u6E90\u4EA4\u63A5\u4E2D\u5E74\u767C\uFF0C\u5BB6\u696D\u8208\u9686\u6C23\u8C61\u65B0\u3002=;7727=\u7956\u696D\u66F4\u6DFB\u65B0\uFF0C\u9580\u5EAD\u53CD\u52DD\u820A\u3002=;7765=\u501F\u554F\u4E00\u751F\u8EAB\u5916\u4E8B\uFF0C\u9047\u8C6C\u4E4B\u5E74\u662F\u6B78\u671F\u3002=;7769=\u516B\u6B72\u55AA\u7236\u65B9\u5408\u3002=8;7940=\u547D\u72AF\u5147\u661F\uFF0C\u59BB\u6B7B\u7159\u70AE\u4E2D\u3002=;7944=\u725D\u99AC\u4E4B\u8C9E\uFF0C\u6D41\u5E74\u5409\u6176\u3002=47,48;7982=\u4E09\u4E5D\u4E4B\u5E74\u904B\u6B63\u597D\uFF0C\u8CB4\u4EBA\u6307\u5F15\u5F97\u76F8\u5B9C\u3002=27;7986=\u6BCD\u8D74\u7464\u6C60\uFF0C\u4E09\u5E74\u6CE3\u8840\u3002=31;8167=\u975E\u540F\u975E\u5112\uFF0C\u731B\u6D6A\u6B72\u6708\u3002=;8171=\u5144\u5F1F\u516D\u4EBA\uFF0C\u5148\u5931\u5176\u4E00\u3002=;8209=\u8CA1\u65FA\u751F\u5BAE\u5728\u6578\u4E2D\uFF0C\u592B\u69AE\u5B50\u79C0\u798F\u7121\u7AAE\u3002=;8211=\u6DBC\u98A8\u521D\u81F3\u695A\u738B\u81FA\uFF0C\u7169\u71B1\u6D88\u9664\u723D\u6C23\u4F86\u3002=;8213=\u96D9\u89AA\u540C\u767D\u9AEE\uFF0C\u6578\u5B9A\u7236\u5148\u6BCD\u540E\u6B78\u3002=;8215=\u56E0\u4F86\u5B9C\u64C7\u907F\uFF0C\u677E\u6A39\u8010\u6B72\u5BD2\u3002=;8253=\u82B1\u5916\u9DAF\u8072\u5DE7\uFF0C\u6625\u98A8\u8349\u8272\u65B0\u3002=;8257=\u7576\u6709\u4E09\u6BCD\u4E4B\u7A31\u3002=;8402=\u4EE5\u76E3\u51FA\u4ED5\uFF0C\u4EFB\u81F3\u6709\u53F8\u3002=;8406=\u7D05\u9E1E\u76F8\u7167\uFF0C\u559C\u6C23\u983B\u4F86=33,34;8438=\u7F8E\u8272\u4E4B\u80FD\uFF0C\u8C48\u4F46\u9F4A\u5BB6\u3002=41,42;8442=\u5927\u5730\u6069\u5149\u7167\uFF0C\u9EC3\u6CB3\u65E5\u6F38\u6E05\u3002=9;8444=\u7C89\u9EDB\u4E00\u7063\u65B0\u6708\u7626\uFF0C\u5712\u6797\u5316\u653E\u8001\u751F\u6625\u3002=77,78;8448=\u4EE5\u6B66\u8209\u800C\u9078\u5343\u6CC1\uFF0C\u4E0D\u5E78\u4E4B\u5E78\u3002=;8480=\u7389\u4EBA\u4E0D\u9F4A\u7709\uFF0C\u5148\u543E\u5341\u4E5D\u5E74\u3002=;8484=\u707D\u6666\u7DBF\u7DBF\uFF0C\u7709\u982D\u672A\u958B\u5C55\u3002=13;8823=\u4E3B\u6301\u8ECD\u5668\uFF0C\u5BB6\u98DF\u5929\u797F\u3002=;8827=\u524D\u59BB\u7121\u5B50\uFF0C\u5F8C\u59BB\u4E00\u5152\u3002=;8865=\u91D1\u98A8\u856D\u6BBA\u4E0D\u53EF\u7576\uFF0C\u7A7A\u4E2D\u8431\u82B1\u5225\u6545\u9109\u3002=27;8869=\u6797\u6728\u6625\u5C07\u8FD1\uFF0C\u7165\u7136\u666F\u8272\u65B0\u3002=29,30;9050=\u7246\u908A\u694A\u67F3\u4F9D\u4F9D\u7DA0\uFF0C\u82E5\u554F\u5E74\u83EF\u8655\u8655\u805E\u3002=27,28;9054=\u7236\u6BCD\u5C6C\u5154\uFF0C\u5148\u5929\u8A3B\u5B9A\u3002=;9092=\u59BB\u5C0F\u516B\u6B72\u3002=;9096=\u5929\u56DA\u5230\u9F20\u5384\uFF0C\u5B9A\u70BA\u7262\u707D\u5211\u7F6A\u82E6\u3002=;9267=\u9109\u79D1\u6377\u5831\uFF0C\u5929\u8CDC\u4F73\u5152\u3002=33,34;9271=\u6625\u98A8\u5439\u96E8\u904D\u6B98\u679D\uFF0C\u7121\u6578\u82B1\u98DB\u6C34\u4E00\u6C60\u3002=33,34;9309=\u4EBA\u9053\u6D41\u5E74\u7F8E\uFF0C\u68A8\u82B1\u4E00\u679D\u6625\u5E36\u96E8\u3002=11;9313=\u7236\u547D\u5348\u5E74\u751F\u65B9\u5408\u3002=;9321=\u58EC\u5348\u4E4B\u5E74\uFF0C\u5BB4\u98DF\u9DF9\u63DA\u3002=;9325=\u592B\u5927\u4E09\u5E74\uFF0C\u59FB\u7DE3\u8A3B\u5B9A\u3002=;9363=\u7236\u547D\u4E01\u672A\u5E74\u751F\u65B9\u5408\u3002=39;9367=\u597D\u500B\u6625\u5149\u904D\uFF0C\u6068\u5992\u98A8\u75BE\u96E8\u3002=37,38;9494=\u7236\u5154\u6BCD\u8C6C\uFF0C\u5148\u5929\u5B9A\u6578\u3002=;9498=\u57F7\u884C\u5149\u660E\u5730\uFF0C\u6642\u7576\u5E7E\u6A5F\u70BA\u3002=33,34;9536=\u4EBA\u751F\u516B\u516B\uFF0C\u8377\u8449\u51CB\u8B1D\u3002=64;9538=\u6843\u7D05\u67F3\u7DA0\u4E09\u6625\u666F\uFF0C\u65E5\u6696\u98A8\u548C\u4E8C\u6708\u5929\u3002=60;9540=\u8F15\u4E4B\u534A\u6B65\u96E3\u52D5\uFF0C\u91CD\u4E4B\u5343\u91CC\u6613\u884C\u3002=55,56;9542=\u8F9B\u4E11\u4E4B\u5E74\uFF0C\u540D\u767B\u9EC3\u7532\u3002=;9580=\u77E5\u541B\u8001\u81F3\u7CBE\u795E\u65FA\uFF0C\u9084\u8A00\u665A\u666F\u5B50\u53C8\u660C=65,66;9584=\u7236\u9F8D\u6BCD\u7334\uFF0C\u5148\u5929\u8A3B\u5B9A\u3002=;9729=\u967D\u6625\u6C38\u73CD\u7136\uFF0C\u65B0\u95A8\u6EFF\u6625\u9662\u3002=69,70;9733=\u5E9A\u620C\u4E4B\u5E74\uFF0C\u9032\u58EB\u5FC5\u5F97\u3002=;9765=\u6BCD\u547D\u4E01\u536F\u5E74\u751F\u65B9\u5408\u3002=;9769=\u7236\u4EA1\u751F\u5B50\uFF0C\u4E00\u6182\u4E00\u559C\u3002=16;9771=\u59BB\u5927\u4E8C\u5E74\uFF0C\u59FB\u7DE3\u524D\u5B9A\u3002=;9775=\u6BCD\u547D\u5DF1\u536F\u5E74\u751F\u65B9\u5408\u3002=;9807=\u59BB\u547D\u58EC\u5B50\u751F\uFF0C\u59FB\u7DE3\u8A3B\u5B9A\u3002=;9811=\u59BB\u5927\u516D\u6B72\u3002=;10150=\u4E00\u80CE\u751F\u4E8C\u5B50\uFF0C\u5B9A\u65BC\u6B64\u5E74\u3002=59;10154=\u7236\u5C6C\u96DE\u6BCD\u5C6C\u9F8D\uFF0C\u6578\u5B9A\u5176\u4E2D\u3002=;10192=\u7F8A\u5E74\u592B\u4E94\u5341\u83EF\u8A95\u3002=;10196=\u4EE5\u6B66\u5B78\u800C\u9078\u5DE6\u5802\uFF0C\u6C34\u706B\u4E4B\u5E74\u51FA\u4ED5\u3002=;10377=\u5176\u6A02\u4E14\u5EB7\uFF0C\u9806\u5883\u76F8\u5FD8\u3002=51;10381=\u5B5D\u670D\u91CD\u91CD\uFF0C\u7236\u6BCD\u96D9\u4EA1\u3002=41;10419=\u6BCD\u4EA1\u751F\u5B50\uFF0C\u4E00\u6182\u4E00\u559C\u3002=36;10423=\u592B\u547D\u4E01\u4E11\u751F\uFF0C\u59FB\u7DE3\u524D\u5B9A\u3002=;10594=\u96D9\u559C\u81E8\u9580\u79D1\u5834\uFF0C\u5F97\u610F\u5146\u718A\u7F86\u3002=39,40;10598=\u6069\u661F\u7167\u547D\uFF0C\u5B98\u8077\u9AD8\u5347\u3002=35,36;10636=\u4E8C\u559C\u81E8\u9580\uFF0C\u9109\u79D1\u7686\u4EF2\u3002=42;10640=\u4EE5\u8CA1\u800C\u5F97\u7E23\u4E1E\uFF0C\u6578\u7531\u524D\u5B9A\u3002=;10648=\u4E00\u66F2\u9D09\u557C\u9084\u9001\u4E0A\uFF0C\u5915\u967D\u87EC\u566A\u52F8\u541B\u884C\u3002=63,64;10652=\u4E09\u59BB\u5154\u547D\uFF0C\u65B9\u53EF\u5055\u8001\u3002=;10690=\u662F\u5E74\u6069\u69AE\u7FF0\u6797\u8077\uFF0C\u6578\u7531\u524D\u5B9A\u3002=;10694=\u7236\u5B50\u9032\u58EB\uFF0C\u5929\u767C\u5584\u9580\u3002=;10821=\u559C\u5B6B\u5165\u6CEE\u3002=68;10825=\u6587\u8CEA\u5F6C\u5F6C\u541B\u5B50\u5FD7\uFF0C\u8DA8\u5EAD\u8A69\u79AE\u7FD2\u5112\u5B97\u3002=;10863=\u592B\u547D\u7532\u620C\u751F\uFF0C\u59FB\u7DE3\u8A3B\u5B9A\u3002=;10865=\u85DD\u7CBE\u98A8\u9451\uFF0C\u8853\u50B3\u9EBB\u8863\u3002=;10867=\u6728\u706B\u4E4B\u5B50\uFF0C\u91D1\u6C34\u4E4B\u59BB\u3002=;10869=\u5B50\u7576\u5165\u6CEE\u3002=61;10907=\u767D\u6587\u81F3\u986F\u5B98\uFF0C\u6578\u5B9A\u6709\u5176\u4EBA\u3002=;10911=\u559C\u5B6B\u5165\u6CEE\u3002=77;11056=\u4ECA\u5E74\u82B1\u52DD\u53BB\u5E74\u7D05\uFF0C\u53EF\u7FA8\u660E\u5E74\u82B1\u66F4\u6FC3\u3002=24;11060=\u975C\u5883\u4FEE\u5FB7\uFF0C\u5FC3\u8AA0\u5247\u9748\u3002=;11092=\u524D\u59BB\u6B7B\u672A\u4E45\uFF0C\u5F8C\u59BB\u4ECA\u53C8\u4EA1\u3002=33,34;11096=\u59BB\u62DB\u91D1\u706B\u5B50\uFF0C\u62DB\u91D1\u6C34\u65B9\u5408\u3002=;11098=\u82B1\u7576\u6625\u653E\u597D\u598D\u5A9A\uFF0C\u6708\u5230\u5929\u5FC3\u5206\u5916\u660E\u3002=;11102=\u524D\u59BB\u65E2\u6B7B\uFF0C\u5F8C\u59BB\u53C8\u4EA1\u3002=35,36;11134=\u6625\u65E5\u6625\u82B1\u7D05\u53C8\u7DA0\uFF0C\u79CB\u6C5F\u79CB\u6C34\u78A7\u9084\u9752\u3002=33,34;11138=\u4E8C\u5B5D\u81E8\u8EAB\uFF0C\u7236\u6B7B\u59BB\u4EA1\u3002=21,22;11477=\u88DC\u5EE9\u540D\u63DA\uFF0C\u8001\u4F86\u4E4B\u6176\u3002=59,60;11481=\u7D93\u71DF\u56DB\u6D77\uFF0C\u7D42\u81F3\u4E00\u5BCC\u3002=;11519=\u53BB\u5E74\u98A8\u96E8\u8FD1\u6B78\u7A0B\uFF0C\u4ECA\u6B72\u6B23\u9022\u9053\u5766\u5E73\u3002=41,42;11523=\u592B\u59BB\u540C\u620A\u620C\uFF0C\u59FB\u7DE3\u524D\u5B9A\u3002=;11704=\u4E0D\u8096\u5B50\u5F31\u667A\uFF0C\u5152\u524D\u60E1\u5831\u751F\u3002=;11708=\u9670\u529F\u7948\u5584\u4FDD\uFF0C\u6028\u5B57\u7121\u5FC3\u4E00\u5728\u982D\u3002=47,48;11746=\u62DB\u4F86\u706B\u4E4B\u5B50\uFF0C\u914D\u91D1\u6C34\u4E4B\u59BB\u65B9\u5408\u3002=;11750=\u5341\u6B72\u6B20\u4E09\u6625\uFF0C\u6BCD\u8D74\u7464\u6C60\u3002=7;11921=\u547D\u6B72\u4E0D\u5805\uFF0C\u516B\u6B72\u767B\u4ED9\u3002=8;11925=\u547D\u72AF\u6731\u96C0\uFF0C\u5B98\u4E8B\u96E3\u514D\u3002=51,52;11963=\u98F2\u9152\u8339\u52DE\u7121\u6211\u4EFD\uFF0C\u6578\u4E2D\u8A3B\u5B9A\u5B78\u9053\u771F\u3002=;11967=\u62DB\u6728\u91D1\u4E4B\u5B50\uFF0C\u914D\u6C34\u4E4B\u59BB\u65B9\u5408\u3002=;11975=\u53EA\u5FF5\u5F4C\u9640\u4E0D\u812B\u5875\uFF0C\u5728\u5BB6\u4FEE\u9053\u4E00\u4FD7\u4EBA\u3002=;11979=\u5074\u5BA4\u751F\u5B50\u3002=62;12017=\u559C\u751F\u4E00\u4EBA\uFF0C\u4E0D\u5E78\u59BB\u4EA1\u3002=26;12021=\u4E09\u6B72\u7236\u4EA1\uFF0C\u5973\u4E4B\u4E0D\u5E78\u3002=;12192=\u56DB\u914D\u7678\u536F\u59BB\uFF0C\u5148\u5929\u8A3B\u5B9A\u3002=;12196=\u597D\u5C07\u5584\u8A23\u50B3\u5F92\u5F1F\uFF0C\u6A02\u6211\u900D\u9059\u4E00\u7247\u5FC3\u3002=59,60;12234=\u535C\u541B\u967D\u5E74\uFF0C\u7D42\u65BC\u516B\u4E5D\u3002=;12238=\u6BCD\u6B7B\u59BB\u4EA1\uFF0C\u4E00\u5E74\u5169\u50B7\u3002=61;12383=\u4E86\u6027\u7121\u4ED6\u610F\uFF0C\u5E38\u5C0D\u4E00\u7210\u9999\u3002=;12387=\u7406\u4EBA\u66F2\u76F4\u6392\uFF0C\u96E3\u89E3\u7D1B\u51A0\u5E36\u81E8\u8EAB\u3002=;12419=\u8001\u800C\u7121\u5B50\u66F0\u7368\u541B\uFF0C\u547D\u6240\u7576\u7136\u3002=;12423=\u4E00\u7A97\u660E\u6708\u4F9B\u5B64\u71C8\u3002=;12425=\u5B78\u8853\u5112\u5B97\uFF0C\u6D2A\u6069\u69AE\u8CDC\u3002=;12429=\u6578\u8A72\u751F\u5B50\uFF0C\u67AF\u694A\u751F\u82BD\u3002=71;12461=\u7236\u6B7B\u4E4B\u5E74\uFF0C\u5973\u4E4B\u4E0D\u5E78\u3002=47;12465=\u89C0\u82B1\u65E9\u53BB\u6D1B\u967D\u6A13\uFF0C\u5200\u7B46\u524D\u7A0B\u9047\u6C9B\u516C\u3002=;12804=\u59D0\u59B9\u516B\u4EBA\uFF0C\u4E00\u5165\u7A7A\u9580\u3002=;12808=\u826F\u4EBA\u597D\u6587\u5B78\uFF0C\u7B46\u58A8\u4F5C\u751F\u6DAF\u3002=;12846=\u826F\u4EBA\u6709\u5211\uFF0C\u518D\u5AC1\u58EC\u7533\u592B\u3002=;12850=\u55AA\u660E\u4E4B\u60B2\uFF0C\u541B\u4EA6\u5982\u4E4B\u3002=57,58";
+const GAN = "\u7532\u4E59\u4E19\u4E01\u620A\u5DF1\u5E9A\u8F9B\u58EC\u7678";
+const ZHI = "\u5B50\u4E11\u5BC5\u536F\u8FB0\u5DF3\u5348\u672A\u7533\u9149\u620C\u4EA5";
+const SX = "\u9F20\u725B\u864E\u5154\u9F8D\u86C7\u99AC\u7F8A\u7334\u96DE\u72D7\u8C6C";
+const JIE = ["\u5C0F\u5BD2", "\u7ACB\u6625", "\u9A5A\u87C4", "\u6E05\u660E", "\u7ACB\u590F", "\u8292\u7A2E", "\u5C0F\u6691", "\u7ACB\u79CB", "\u767D\u9732", "\u5BD2\u9732", "\u7ACB\u51AC", "\u5927\u96EA"];
+const TRI = ["", "\u4E7E", "\u514C", "\u96E2", "\u9707", "\u5DFD", "\u574E", "\u826E", "\u5764"];
+const TRI_LINES = [[], [1, 1, 1], [1, 1, 0], [1, 0, 1], [1, 0, 0], [0, 1, 1], [0, 1, 0], [0, 0, 1], [0, 0, 0]];
+const HEX = [
+  [],
+  ["", "\u4E7E", "\u5C65", "\u540C\u4EBA", "\u65E0\u5984", "\u59E4", "\u8A1F", "\u906F", "\u5426"],
+  ["", "\u592C", "\u514C", "\u9769", "\u96A8", "\u5927\u904E", "\u56F0", "\u54B8", "\u8403"],
+  ["", "\u5927\u6709", "\u777D", "\u96E2", "\u566C\u55D1", "\u9F0E", "\u672A\u6FDF", "\u65C5", "\u6649"],
+  ["", "\u5927\u58EF", "\u6B78\u59B9", "\u8C50", "\u9707", "\u6046", "\u89E3", "\u5C0F\u904E", "\u8C6B"],
+  ["", "\u5C0F\u755C", "\u4E2D\u5B5A", "\u5BB6\u4EBA", "\u76CA", "\u5DFD", "\u6E19", "\u6F38", "\u89C0"],
+  ["", "\u9700", "\u7BC0", "\u65E2\u6FDF", "\u5C6F", "\u4E95", "\u574E", "\u8E47", "\u6BD4"],
+  ["", "\u5927\u755C", "\u640D", "\u8CC1", "\u9824", "\u8831", "\u8499", "\u826E", "\u525D"],
+  ["", "\u6CF0", "\u81E8", "\u660E\u5937", "\u5FA9", "\u5347", "\u5E2B", "\u8B19", "\u5764"]
+];
+const TAIXUAN = { \u7532: 9, \u5DF1: 9, \u5B50: 9, \u5348: 9, \u4E59: 8, \u5E9A: 8, \u4E11: 8, \u672A: 8, \u4E19: 7, \u8F9B: 7, \u5BC5: 7, \u7533: 7, \u4E01: 6, \u58EC: 6, \u536F: 6, \u9149: 6, \u620A: 5, \u7678: 5, \u8FB0: 5, \u620C: 5, \u5DF3: 4, \u4EA5: 4 };
+const KE = ["\u521D\u523B", "\u4E8C\u523B", "\u4E09\u523B", "\u56DB\u523B", "\u4E94\u523B", "\u516D\u523B", "\u4E03\u523B", "\u516B\u523B"];
+const CN = "\u3007\u4E00\u4E8C\u4E09\u56DB\u4E94\u516D\u4E03\u516B\u4E5D\u5341";
+const JIE_MIN = (() => {
+  const a = F12.slice();
+  for (let i = 0; i < RES.length; i++) a.push(a[i] + 525949 + RES.charCodeAt(i) - 48 - 17);
+  return a;
+})();
+const TEXTS = (() => {
+  const o = {};
+  TX.split(";").forEach((s) => {
+    const p = s.split("=");
+    o[Number(p[0])] = { t: p[1], age: p[2] };
+  });
+  return o;
+})();
+function jdn(y, m, d) {
+  const a = Math.floor((14 - m) / 12), yy = y + 4800 - a, mm = m + 12 * a - 3;
+  return d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+}
+const JD1900 = jdn(1900, 1, 1);
+function fromMin(t) {
+  const day = Math.floor(t / 1440), r = Math.floor(t - day * 1440);
+  const j = JD1900 + day;
+  const a = j + 32044, b = Math.floor((4 * a + 3) / 146097), c = a - Math.floor(146097 * b / 4);
+  const d = Math.floor((4 * c + 3) / 1461), e = c - Math.floor(1461 * d / 4), m = Math.floor((5 * e + 2) / 153);
+  const dd = e - Math.floor((153 * m + 2) / 5) + 1, mo = m + 3 - 12 * Math.floor(m / 10), y = 100 * b + d - 4800 + Math.floor(m / 10);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${y}-${p(mo)}-${p(dd)} ${p(Math.floor(r / 60))}:${p(r % 60)}`;
+}
+const gz = (i) => GAN[(i % 10 + 10) % 10] + ZHI[(i % 12 + 12) % 12];
+const gz60 = (i) => gz((i % 60 + 60) % 60);
+const mname = (m) => (m === 1 ? "\u6B63" : m === 11 ? "\u51AC" : m === 12 ? "\u81D8" : CN[m]) + "\u6708";
+function lunarDate(jd) {
+  let start = 2414696;
+  for (let yi = 0; yi < LUN.length / 5; yi++) {
+    const v = parseInt(LUN.substr(yi * 5, 5), 16);
+    const bits = v >> 5, leap = v >> 1 & 15, leapBig = v & 1;
+    const months = [];
+    for (let m = 1; m <= 12; m++) {
+      months.push({ n: mname(m), d: bits >> 12 - m & 1 ? 30 : 29 });
+      if (m === leap) months.push({ n: "\u958F" + mname(m), d: leapBig ? 30 : 29 });
+    }
+    const len = months.reduce((s, x) => s + x.d, 0);
+    if (jd < start + len) {
+      let off = jd - start;
+      for (const mo of months) {
+        if (off < mo.d) {
+          const day = off + 1;
+          const dn = day === 10 ? "\u521D\u5341" : day === 20 ? "\u4E8C\u5341" : day === 30 ? "\u4E09\u5341" : day < 10 ? "\u521D" + CN[day] : day < 20 ? "\u5341" + CN[day - 10] : "\u5EFF" + CN[day - 20];
+          const y = 1899 + yi;
+          return `${String(y).split("").map((c) => CN[Number(c)]).join("")}\u5E74\uFF08${gz60(y - 4)}\u5E74\uFF09${mo.n}${dn}`;
+        }
+        off -= mo.d;
+      }
+    }
+    start += len;
+  }
+  return "\u2014";
+}
+function compute(y, mo, d, h, mi, male, ziNewDay) {
+  if (y < 1900 || y > 2100) return "\u5E74\u4EFD\u9700\u5728 1900\u20132100 \u4E4B\u9593";
+  const jd = jdn(y, mo, d);
+  const t = (jd - JD1900) * 1440 + h * 60 + mi;
+  let k = -1;
+  for (let i = 0; i < JIE_MIN.length; i++) {
+    if (JIE_MIN[i] <= t) k = i;
+    else break;
+  }
+  if (k < 0 || k + 1 >= JIE_MIN.length) return "\u8D85\u51FA\u7BC0\u6C23\u8868\u7BC4\u570D";
+  const solarYear = k === 0 ? 1898 : 1899 + Math.floor((k - 1) / 12);
+  const yIdx = solarYear - 4;
+  const yGan = (yIdx % 10 + 10) % 10;
+  const mZhi = (1 + k) % 12;
+  const mGan = (yGan % 5 * 2 + 2 + (mZhi - 2 + 12) % 12) % 10;
+  let dayJd = jd;
+  if (h === 23 && ziNewDay) dayJd += 1;
+  const dIdx = (dayJd + 49) % 60;
+  const hZhi = Math.floor((h + 1) / 2) % 12;
+  const stemDay = h === 23 && !ziNewDay ? (dIdx + 1) % 10 : dIdx % 10;
+  const hGan = (stemDay % 5 * 2 + hZhi) % 10;
+  const pillars = [gz(yIdx), GAN[mGan] + ZHI[mZhi], gz60(dIdx), GAN[hGan] + ZHI[hZhi]];
+  const yangYear = yGan % 2 === 0;
+  const forward = yangYear && male || !yangYear && !male;
+  const diff = forward ? JIE_MIN[k + 1] - t : t - JIE_MIN[k];
+  const years = diff / (3 * 1440);
+  const yy = Math.floor(years), mm = Math.floor((years - yy) * 12), dd = Math.round(((years - yy) * 12 - mm) * 30);
+  const qiYun = `${yy} \u6B72 ${mm} \u500B\u6708 ${dd} \u5929`;
+  const startYear = Number(fromMin(t + years * 525949).slice(0, 4));
+  let mIdx = 0;
+  for (let i = 0; i < 60; i++) if (i % 10 === mGan && i % 12 === mZhi) mIdx = i;
+  const dayun = Array.from({ length: 10 }, (_, i) => ({ gz: gz60(mIdx + (forward ? i + 1 : -(i + 1))), age: years + i * 10, year: startYear + i * 10 }));
+  const yearNum = TAIXUAN[pillars[0][0]] + TAIXUAN[pillars[0][1]];
+  const monthNum = TAIXUAN[pillars[1][0]] + TAIXUAN[pillars[1][1]];
+  const up = monthNum % 8 || 8, lo = yearNum % 8 || 8;
+  const L = TRI_LINES[lo].concat(TRI_LINES[up]);
+  const findTri = (a) => TRI_LINES.findIndex((x) => x.length === 3 && x[0] === a[0] && x[1] === a[1] && x[2] === a[2]);
+  const loHu = findTri(L.slice(1, 4)), upHu = findTri(L.slice(2, 5));
+  let th = (up + 6) % 10;
+  if (th === 0) th = up;
+  const base = th * 1e3 + up * 100 + upHu * 10 + loHu;
+  const kes = KE.map((_, i) => {
+    let n = base + 1327 * i;
+    while (n > 13e3) n -= 12e3;
+    const e = TEXTS[n];
+    return { n, text: e ? e.t : "", age: e ? e.age : "", ok: !!(e && e.t) };
+  });
+  return {
+    pillars,
+    lunar: lunarDate(jd),
+    jiePrev: `${JIE[k % 12]} ${fromMin(JIE_MIN[k])}`,
+    jieNext: `${JIE[(k + 1) % 12]} ${fromMin(JIE_MIN[k + 1])}`,
+    forward,
+    qiYun,
+    dayun,
+    up,
+    lo,
+    upHu,
+    loHu,
+    yearNum,
+    monthNum,
+    base,
+    kes
+  };
+}
+const NUMWORDS = (n) => {
+  const w = n <= 10 ? CN[n] : "\u5341" + CN[n - 10];
+  return [w, String(n), n === 2 ? "\u5169" : w];
+};
+function scoreKe(text, fa, mo, sp, sib, male) {
+  const hits = [];
+  const has = (z) => z !== "" && (text.includes(SX[ZHI.indexOf(z)]) || text.includes(z));
+  if (fa && /父|椿|嚴/.test(text) && has(fa)) hits.push("\u7236");
+  if (mo && /母|萱|慈/.test(text) && has(mo)) hits.push("\u6BCD");
+  if (sp && (male ? /妻|婦|室|細君/.test(text) : /夫|郎|良人/.test(text)) && has(sp)) hits.push("\u914D\u5076");
+  const n = Number(sib);
+  if (sib !== "" && n > 0 && n <= 20 && /兄|弟|姐|妹|昆|手足|雁/.test(text) && NUMWORDS(n).some((w) => text.includes(w + "\u4EBA") || text.includes(w + "\u500B") || text.includes(w + "\u4F4D"))) hits.push("\u5144\u5F1F");
+  return hits;
+}
+
+var $=function(i){return document.getElementById(i)};
+["fa","mom","sp"].forEach(function(id){var h='<option value="">（不填）</option>';for(var i=0;i<12;i++)h+='<option value="'+ZHI[i]+'">'+SX[i]+'（'+ZHI[i]+'）</option>';$(id).innerHTML=h;});
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function render(){var y=+$("y").value,mo=+$("mo").value,d=+$("d").value,h=+$("h").value,mi=+$("mi").value,male=$("sex").value==="男",zi=$("zi").checked;
+var r=(mo<1||mo>12||d<1||d>31||h<0||h>23||mi<0||mi>59||isNaN(y+mo+d+h+mi))?"請輸入正確的日期時間":compute(y,mo,d,h,mi,male,zi);
+if(typeof r==="string"){$("out").innerHTML='<div class="card miss">'+r+'</div>';return}
+var fa=$("fa").value,mom=$("mom").value,sp=$("sp").value,sib=$("sib").value,any=fa||mom||sp||sib;
+var sc=r.kes.map(function(k){return scoreKe(k.text,fa,mom,sp,sib,male)}),best=Math.max.apply(null,[0].concat(sc.map(function(s){return s.length})));
+var lb=["年柱","月柱","日柱","時柱"],H='<div class="card"><h2>八字四柱</h2><div class="pillars">';
+r.pillars.forEach(function(p,i){H+='<div class="p"><div class="l">'+lb[i]+'</div><div class="c">'+p[0]+'<br>'+p[1]+'</div><div class="l">'+SX[ZHI.indexOf(p[1])]+'</div></div>'});
+var pad=function(n){return(n<10?"0":"")+n};
+H+='</div><table><tr><th>陽曆</th><td>'+y+'年'+mo+'月'+d+'日 '+pad(h)+':'+pad(mi)+'（'+(male?"乾造":"坤造")+'）</td></tr><tr><th>農曆</th><td>'+r.lunar+'</td></tr><tr><th>所在節令</th><td>'+r.jiePrev+' 之後</td></tr><tr><th>下一個節</th><td>'+r.jieNext+'</td></tr>'+(h===23?'<tr><th>子時</th><td>'+(zi?"晚子時，已換日柱":"晚子時，日柱不換，時干依次日日干起")+'</td></tr>':h===0?'<tr><th>子時</th><td>早子時，日柱依當日</td></tr>':'')+'</table></div>';
+H+='<div class="card"><h2>大運</h2><p class="note">'+(r.forward?"順排（陽男陰女）":"逆排（陰男陽女）")+'；起運：'+r.qiYun+'（三日折一年）</p><table><tr><th>運</th><th>大運</th><th>起運歲（實歲）</th><th>起運年</th></tr>';
+r.dayun.forEach(function(x,i){H+='<tr><td>第'+(CN[i+1]||"十")+'運</td><td><b>'+x.gz+'</b></td><td>'+x.age.toFixed(1)+'</td><td>'+x.year+'</td></tr>'});
+H+='</table></div>';
+var lines=TRI_LINES[r.lo].concat(TRI_LINES[r.up]).slice().reverse(),g='<div class="yao">';lines.forEach(function(v){g+=v?'<div><span style="width:100%"></span></div>':'<div><span style="width:42%"></span><span style="width:42%"></span></div>'});g+='</div>';
+var P=r.pillars;H+='<div class="card"><h2>鐵板神數起數</h2><div class="gua">'+g+'<table style="flex:1;min-width:220px"><tr><th>年數</th><td>'+P[0][0]+TAIXUAN[P[0][0]]+' + '+P[0][1]+TAIXUAN[P[0][1]]+' = '+r.yearNum+'</td></tr><tr><th>月數</th><td>'+P[1][0]+TAIXUAN[P[1][0]]+' + '+P[1][1]+TAIXUAN[P[1][1]]+' = '+r.monthNum+'</td></tr><tr><th>本卦</th><td>'+TRI[r.up]+'上'+TRI[r.lo]+'下・'+HEX[r.up][r.lo]+'</td></tr><tr><th>互卦</th><td>上互'+TRI[r.upHu]+'・下互'+TRI[r.loHu]+'</td></tr><tr><th>基本數</th><td><b>'+r.base+'</b></td></tr></table></div></div>';
+H+='<div class="card"><h2>八刻條文</h2><p class="note">'+(any?"命中六親最多之刻標為真刻候選（關鍵字比對，僅供參考）":"每刻 15 分鐘，逐刻加 1327；填入六親可考刻")+'</p><table><tr><th>刻</th><th>條文號</th><th>條文</th><th>年齡註</th>'+(any?'<th>考刻</th>':'')+'</tr>';
+r.kes.forEach(function(k,i){var hit=any&&sc[i].length>0&&sc[i].length===best;H+='<tr'+(hit?' class="hit"':'')+'><td>'+KE[i]+'</td><td>'+k.n+'</td><td>'+(k.ok?esc(k.text):'<span class="miss">缺（無來源條文）</span>')+'</td><td>'+(k.age||"—")+'</td>'+(any?'<td>'+(hit?'★ 真刻候選（'+sc[i].join("、")+'）':(sc[i].join("、")||"—"))+'</td>':'')+'</tr>'});
+$("out").innerHTML=H+'</table></div>';}
+function safe(e){if(e&&e.preventDefault)e.preventDefault();try{render()}catch(err){$("out").innerHTML='<div class="card miss">發生錯誤：'+esc(err&&err.message||err)+'</div>'}}
+var lastTouch=0;$("go").addEventListener("click",function(e){if(Date.now()-lastTouch>800)safe(e)});$("go").addEventListener("touchend",function(e){lastTouch=Date.now();safe(e)});
+$("nojs").style.display="none";safe();
+}catch(err){var o=document.getElementById("out");if(o)o.innerHTML='<div class="card miss">程式載入錯誤：'+String(err&&err.message||err)+'</div>';}
+</script></body></html>
