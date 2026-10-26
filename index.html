@@ -540,7 +540,7 @@ kkCard=function(r,male){var key=r.base+"|"+male;if(KK.key!==key){KK={key:key,ans
   R.ord.forEach(function(i,n){var e=R.ev[i];H+='<tr class="'+(KK.lock===i?'hit':'')+'"><td>'+(n+1)+'</td><td>'+KE[i]+'<br><small>'+r.kes[i].n+'</small></td><td><b>'+(e.s>0?"+":"")+e.s+'</b></td><td><small>'+(e.m.length?'✔ '+esc(e.m.join("、")):'')+(e.c.length?(e.m.length?'<br>':'')+'<span class="miss">✘ '+esc(e.c.join("、"))+'</span>':'')+(!e.m.length&&!e.c.length?'—':'')+'</small></td><td class="kbs"><button type="button" class="kb'+(KK.ov===i?' on':'')+'" data-kov="'+i+'">選此刻</button></td></tr>'});
   H+='</table>'+(KK.ov>=0?'<button type="button" class="kb" data-kov="-1">改回自動定刻</button>':'')+(R.auto<0&&KK.ov<0?'<p class="note">目前無唯一最高分之刻，尚未自動定刻；請多核對幾刻。</p>':'');
   H+='<p><b>剩餘候選：</b>'+(rem.length?rem.map(function(i){return KE[i]}).join("、"):'<span class="miss">全部排除，請重來</span>')+(yes.length>1?' <span class="miss">（多刻答「對」，以分數排名）</span>':'')+'</p>';
-  if(KK.lock>=0){var k=r.kes[KK.lock];H+='<div class="lock" id="kkres" style="border:2px solid #b5462f;border-radius:10px;padding:10px 12px;margin:10px 0;background:#fff8ef"><h3 style="margin:0 0 6px;color:#b5462f">'+KE[KK.lock]+'（'+k.n+'）批命條文</h3><div style="font-size:1.15em;line-height:1.6"><b>'+k.n+'</b>　'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(String(k.age))+'）</span>':'')+'</div><p class="note" style="margin:6px 0 0">🔒 '+how+'。太玄數八刻每刻只對應這一條條文；下方「其他類別」補充僅列此刻條文。「一生批命」（十四法本命／流年，需切換至十四法系統才顯示）是另一系統，有自己的初刻／正刻，不隨此處所選之刻改變。</p></div>'}
+  if(KK.lock>=0){var k=r.kes[KK.lock];H+='<div class="lock" id="kkres" style="border:2px solid #b5462f;border-radius:10px;padding:10px 12px;margin:10px 0;background:#fff8ef"><h3 style="margin:0 0 6px;color:#b5462f">'+KE[KK.lock]+'（'+k.n+'）批命條文</h3><div style="font-size:1.15em;line-height:1.6"><b>'+k.n+'</b>　'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(String(k.age))+'）</span>':'')+'</div><p class="note" style="margin:6px 0 0">🔒 '+how+'。太玄數八刻每刻只對應這一條條文；下方「其他類別」補充僅列此刻條文。下方「一生批命」（十四法本命／流年）是另一系統，有自己的初刻／正刻，不隨此處所選之刻改變。</p></div>'}
   H+='<table><tr><th>刻</th><th>條文</th><th>核對</th></tr>';
   r.kes.forEach(function(k,i){var a=KK.ans[i];H+='<tr class="'+(KK.lock===i?'hit':a===-1?'out':'')+'"><td>'+KE[i]+'<br><small>'+k.n+'</small></td><td>'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(k.age)+'）</span>':'')+'</td><td class="kbs">'+
     [[1,"對"],[-1,"不對"],[2,"不確定"]].map(function(b){return '<button type="button" class="kb'+(a===b[0]?' on':'')+'" data-ke="'+i+'" data-v="'+b[0]+'">'+b[1]+'</button>'}).join("")+'</td></tr>'});
@@ -579,7 +579,7 @@ function doSearch(){var q=($("sq").value||"").replace(/^\s+|\s+$/g,""),a=sdb(),L
   var s=document.createElement("div");s.className="card";s.id="srch";s.innerHTML='<details><summary><b>搜尋條文</b>（關鍵字或條文號）</summary><div class="grid"><div><label>關鍵字／條文號</label><input id="sq" type="search" placeholder="例：椿萱、送老、1031"></div><div><label>&nbsp;</label><button type="button" class="kb" id="sbtn" style="width:100%">搜尋</button></div></div><div id="sres"></div></details>';
   c.parentNode.insertBefore(s,c.nextSibling);chList();
   $("sq").addEventListener("keydown",function(e){if(e.keyCode===13){e.preventDefault();doSearch()}});
-  var _oa=onAct;onAct=function(e){var t=e.target;if(t&&t.getAttribute){var kov=t.getAttribute("data-kov");if(kov!==null){KK.ov=+kov;rerenderKK();var rb=$("kkres");if(rb&&rb.scrollIntoView){try{rb.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){rb.scrollIntoView(true)}}return true}
+  var _oa=onAct;onAct=function(e){var t=e.target;if(t&&t.getAttribute){var kov=t.getAttribute("data-kov");if(kov!==null){kbSelect(+kov,true);var rb=$("kkres");if(rb&&rb.scrollIntoView){try{rb.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){rb.scrollIntoView(true)}}return true}
     if(t.id==="sbtn"){doSearch();return true}if(t.id==="jybtn"){jumpYear();return true}if(chAct(t))return true}return _oa(e)}})();
 /* ===== v8: full 12000 條 lazy-load ===== */
 var FULL={st:0,n:0};
@@ -594,6 +594,41 @@ sdb=function(){if(SDB)return SDB;var a=[],k;var seen={};for(k in TEXTS)if(TEXTS[
 (function(){var s=$("sres");if(s){var p=document.createElement("p");p.className="note";p.id="twmsg";s.parentNode.insertBefore(p,s)}twMsg();
   var _l=lifeRender;lifeRender=function(){_l();var el=$("life");if(el){var ps=el.querySelectorAll("p.note");if(ps[0])ps[0].innerHTML=ps[0].innerHTML.replace("12000 條（全文另檔 tiaowen.json 載入；載入失敗時僅內建 1,677 條），未增改一字","12000 條（全文另檔 tiaowen.json 載入；載入失敗時僅內建 1,677 條），未增改一字")}};
   twLoad()})();
+var KB={cur:-1,cmp:-1,link:true,busy:false};
+var KBN=["一刻","二刻","三刻","四刻","五刻","六刻","七刻","八刻"];
+function kbSlot(){try{var c=birthCorr();if(isNaN(c.h+c.mi))return -1;return Math.floor(((c.h*60+c.mi+60)%120)/15)}catch(e){return -1}}
+function kbKe(i){return i<4?"初刻":"正刻"}
+function kbBar(){var s=kbSlot(),H='<div id="kebar" style="position:sticky;position:-webkit-sticky;top:0;z-index:50;background:#fffaf2;border:2px solid #b5462f;border-radius:10px;padding:8px;margin:0 0 12px;box-shadow:0 2px 6px rgba(0,0,0,.15)"><b style="color:#b5462f">選刻（點任一刻，全頁隨刻變動之條文立即切換）</b><div style="display:flex;flex-wrap:wrap;gap:4px;margin:6px 0">';
+  for(var i=0;i<8;i++)H+='<button type="button" data-kb="'+i+'" style="flex:1 0 22%;padding:9px 0;border-radius:8px;border:1px solid #8a5a2b;font-size:15px;'+(KB.cur===i?'background:#b5462f;color:#fff;font-weight:bold':'background:#fff;color:#5a3a1b')+'">'+KBN[i]+'</button>';
+  H+='</div><div style="font-size:13px;line-height:1.5"><label style="display:inline">比較基準 <select id="kbcmp" style="width:auto;display:inline;padding:2px"><option value="-1">上一次所選之刻</option>';
+  for(i=0;i<8;i++)H+='<option value="'+i+'"'+(KB.cmp===i?' selected':'')+'>'+KBN[i]+'</option>';
+  H+='</select></label> <label style="display:inline"><input type="checkbox" id="kblink" style="width:auto"'+(KB.link?' checked':'')+'> 十四法隨刻切換（一～四刻→初刻，五～八刻→正刻）</label></div><div id="kbsum" style="font-size:14px;margin-top:4px;color:#b5462f;font-weight:bold"></div>';
+  if(s>=0)H+='<div class="note" style="font-size:12px;color:#777">參考：出生時間落在本時辰第 '+(s+1)+' 個 15 分鐘（即'+KBN[s]+'）；僅供參考，真刻仍以考刻核對為準。</div>';
+  return H+'</div>'}
+function kbRoots(){return [$("kkcard"),$("life")]}
+function kbWalk(fn){var rs=kbRoots();for(var r=0;r<rs.length;r++){var root=rs[r];if(!root)continue;var sec="",cnt={},ns=root.querySelectorAll("h2,h3,tr,div.lock");
+  for(var i=0;i<ns.length;i++){var n=ns[i],tg=n.tagName;if(tg==="H2"||tg==="H3"){sec=n.textContent;continue}
+    if(tg==="TR"&&(n.querySelector("th")||n.querySelector("button")))continue;
+    var c0=tg==="TR"&&n.cells[0]?n.cells[0].textContent:(tg==="DIV"&&n.className==="lock"?"真刻":(n.querySelector("b")?n.querySelector("b").textContent:""));
+    var base=root.id+"|"+sec+"|"+c0.replace(/此刻不同/g,"");cnt[base]=(cnt[base]||0)+1;
+    var v=n.textContent.replace(/此刻不同/g,"");if(n.className.indexOf("lock")>=0)v=v.replace(/（條文號[^）]*）/,"").replace(/^[^）]*）批命條文/,"").replace(/🔒[\s\S]*$/,"");
+    fn(base+"#"+cnt[base],v,n)}}}
+function kbSnap(){var m={};kbWalk(function(k,v){m[k]=v});return m}
+function kbApply(i){KK.ov=i;if(KB.link)LIFE.ke=kbKe(i);try{rerenderKK()}catch(e){}try{lifeRender()}catch(e){}}
+function kbSelect(i,noScroll){if(KB.busy)return;KB.busy=true;try{
+  var c=KB.cmp>=0?KB.cmp:KB.cur,base=null;if(c>=0&&c!==i){kbApply(c);base=kbSnap()}
+  kbApply(i);KB.cur=i;var bar=$("kebar");if(bar){var p=bar.parentNode,t=document.createElement("div");t.innerHTML=kbBar();p.replaceChild(t.firstChild,bar)}
+  var N=0,now={};if(base){kbWalk(function(k,v,n){now[k]=1;if(base[k]!==v){N++;n.style.background="#fff1b8";n.className+=" kbchg";var b=document.createElement("span");b.textContent="此刻不同";b.setAttribute("style","display:inline-block;background:#b5462f;color:#fff;font-size:11px;border-radius:4px;padding:0 4px;margin:0 4px;font-weight:normal");var tgt=n.tagName==="TR"&&n.cells[0]?n.cells[0]:n;tgt.insertBefore(b,tgt.firstChild);
+      var d=n.parentNode;while(d&&d!==document.body){if(d.tagName==="DETAILS"){var sm=d.querySelector("summary");if(sm&&!sm.getAttribute("data-kbm")){sm.setAttribute("data-kbm","1");sm.insertAdjacentHTML("beforeend",' <span style="background:#b5462f;color:#fff;font-size:11px;border-radius:4px;padding:0 4px">內有此刻不同條文</span>')}}d=d.parentNode}}});
+    var gone=0;for(var k in base)if(!now[k])gone++;N+=gone;KB.gone=gone}else KB.gone=0;
+  var s=$("kbsum");if(s)s.innerHTML=base?'目前：'+KBN[i]+'（八刻條文 '+(KKR&&KKR.r.kes[i]?KKR.r.kes[i].n:"")+'）。與'+KBN[c]+'相比，共 '+N+' 處條文不同'+(N?'（黃底＋「此刻不同」標示'+(KB.gone?'；其中 '+KB.gone+' 條為前一刻有、此刻無':'')+'）':'')+'。'+(KB.link?' 十四法：'+kbKe(c)+'→'+kbKe(i)+(kbKe(c)===kbKe(i)?'（同屬'+kbKe(i)+'，十四法條文不變）':''):' 十四法未連動。'):'目前：'+KBN[i]+'。再點另一刻即標示差異。';
+  if(!noScroll){var rb=$("kkres");if(rb&&rb.scrollIntoView&&arguments[2]){try{rb.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){rb.scrollIntoView(true)}}}
+ }finally{KB.busy=false}}
+var _rnd3=render;render=function(){var r=_rnd3.apply(this,arguments);try{var o=$("out");if(o&&$("kkcard")&&!$("kebar")){var t=document.createElement("div");t.innerHTML=kbBar()+'<p class="note" id="kbind" style="font-size:12px">不隨刻改變（與所選之刻無關）：八字四柱、大運、太玄數起數與八刻條文總表（八刻全列，僅標示所選列）、十四法之先天命數／五音／日命／時運／本命數／後天命數。十四法本命與流年條文只在初刻⇄正刻 之間改變。</p>';var f=$("kkcard");var host=f.parentNode;var first=host.firstChild;while(t.firstChild)host.insertBefore(t.firstChild,first)}var L=$("life");if(L)L.style.display="";if(KB.cur>=0&&KK.ov!==KB.cur){KB.cur=-1}}catch(e){}return r};
+var _aps3=applySys;applySys=function(){_aps3.apply(this,arguments);var L=$("life");if(L)L.style.display=""};
+document.addEventListener("click",function(e){var t=e.target;while(t&&t!==document&&!(t.getAttribute&&t.getAttribute("data-kb")!==null))t=t.parentNode;if(t&&t!==document){kbSelect(+t.getAttribute("data-kb"),true)}});
+document.addEventListener("change",function(e){var t=e.target;if(t.id==="kbcmp"){KB.cmp=+t.value;if(KB.cur>=0)kbSelect(KB.cur,true)}else if(t.id==="kblink"){KB.link=t.checked;if(!KB.link){LIFE.ke=""}if(KB.cur>=0)kbSelect(KB.cur,true)}});
+
 $("nojs").style.display="none";safe();
 }catch(err){var o=document.getElementById("out");if(o)o.innerHTML='<div class="card miss">程式載入錯誤：'+String(err&&err.message||err)+'</div>';}
 </script><div id="glpop"></div></body></html>
