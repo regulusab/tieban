@@ -487,6 +487,100 @@ document.addEventListener("click",function(e){var t=e.target;if(!t||!t.id)return
 $("reg").addEventListener("change",function(){$("utcw").style.display=$("reg").value==="other"?"":"none"});$("city").addEventListener("change",function(){if($("city").value)$("lon").value=$("city").value});
 function safe(e){if(e&&e.preventDefault)e.preventDefault();try{render()}catch(err){$("out").innerHTML='<div class="card miss">發生錯誤：'+esc(err&&err.message||err)+'</div>'}}
 var lastTouch=0;$("go").addEventListener("click",function(e){if(Date.now()-lastTouch>800)safe(e)});$("go").addEventListener("touchend",function(e){lastTouch=Date.now();safe(e)});
+/* ===== v7 additions (ES5) ===== */
+function jd2ymd(j){var a=j+32044,b=Math.floor((4*a+3)/146097),c=a-Math.floor(146097*b/4),d=Math.floor((4*c+3)/1461),e=c-Math.floor(1461*d/4),m=Math.floor((5*e+2)/153);return{y:100*b+d-4800+Math.floor(m/10),mo:m+3-12*Math.floor(m/10),d:e-Math.floor((153*m+2)/5)+1}}
+function lunYear(ly){var yi=ly-1899;if(yi<0||yi>=LUN.length/5)return null;var start=2414696;for(var i=0;i<yi;i++){var v0=parseInt(LUN.substr(i*5,5),16),b0=v0>>5,l0=(v0>>1)&15,len=0;for(var m=1;m<=12;m++)len+=(b0>>(12-m))&1?30:29;if(l0)len+=(v0&1)?30:29;start+=len}
+  var v=parseInt(LUN.substr(yi*5,5),16),bits=v>>5,leap=(v>>1)&15,ms=[];for(var k=1;k<=12;k++){ms.push({m:k,lp:false,d:(bits>>(12-k))&1?30:29});if(k===leap)ms.push({m:k,lp:true,d:(v&1)?30:29})}return{start:start,ms:ms,leap:leap}}
+function l2s(ly,lm,lp,ld){var Y=lunYear(ly);if(!Y)return "農曆年需在 1899–2101 之間";if(lp&&Y.leap!==lm)return "農曆 "+ly+" 年無閏"+mname(lm)+(Y.leap?"（該年閏"+mname(Y.leap)+"）":"（該年無閏月）");
+  var off=0;for(var i=0;i<Y.ms.length;i++){var x=Y.ms[i];if(x.m===lm&&x.lp===!!lp){if(ld<1||ld>x.d)return (lp?"閏":"")+mname(lm)+"只有 "+x.d+" 天";var r=jd2ymd(Y.start+off+ld-1);if(r.y<1900||r.y>2100)return "換算後國曆超出 1900–2100";return r}off+=x.d}return "月份錯誤"}
+function lunSync(){var w=$("lunw"),lun=$("cal").value==="L";w.style.display=lun?"":"none";$("solw").style.opacity=lun?".6":"";var m=$("lunmsg");
+  if(!lun){m.innerHTML="";return true}var r=l2s(+$("ly").value,+$("lm").value,$("lleap").checked,+$("ld").value);
+  if(typeof r==="string"){m.innerHTML='<span class="miss">'+esc(r)+'</span>';return false}$("y").value=r.y;$("mo").value=r.mo;$("d").value=r.d;
+  m.innerHTML='農曆 '+$("ly").value+' 年'+($("lleap").checked?"閏":"")+mname(+$("lm").value)+' '+$("ld").value+' 日 ＝ 國曆 <b>'+r.y+'-'+r.mo+'-'+r.d+'</b>（已填入上方國曆欄）';return true}
+(function(){var g=$("y").parentNode.parentNode;var sw=document.createElement("div");sw.id="solw";while(g.firstChild&&g.firstChild!==$("h").parentNode)sw.appendChild(g.firstChild);
+  var c=document.createElement("div");c.innerHTML='<div class="grid"><div><label>曆法</label><select id="cal"><option value="S">國曆（陽曆）</option><option value="L">農曆（陰曆）</option></select></div></div>'+
+  '<div id="lunw" style="display:none"><div class="grid" style="margin-top:6px"><div><label>農曆年</label><input id="ly" type="number" value="1962"></div><div><label>農曆月</label><select id="lm"></select></div><div><label>農曆日（1–30）</label><input id="ld" type="number" value="9"></div><div><label>&nbsp;</label><label style="font-size:15px"><input id="lleap" type="checkbox" style="width:auto"> 閏月</label></div></div></div><p class="note" id="lunmsg"></p>';
+  g.parentNode.insertBefore(c,g);sw.className="grid";g.parentNode.insertBefore(sw,g);var h='';for(var i=1;i<=12;i++)h+='<option value="'+i+'">'+mname(i)+'</option>';$("lm").innerHTML=h;$("lm").value="7";
+  ["cal","ly","lm","ld","lleap"].forEach(function(id){$(id).addEventListener("change",lunSync);$(id).addEventListener("input",lunSync)});
+  /* extra 考刻 fields */
+  var kg=$("sib").parentNode.parentNode,e=document.createElement("div");e.innerHTML='<label>子女人數</label><input id="kid" type="number" min="0">';kg.appendChild(e);
+  e=document.createElement("div");e.innerHTML='<label>父母何者先過世</label><select id="pf"><option value="">（不填／皆健在）</option><option value="父">父親先</option><option value="母">母親先</option></select>';kg.appendChild(e);
+  ["fa","mom","sp","sib","kid","pf"].forEach(function(id){$(id).addEventListener("change",function(){rerenderKK()})});
+  INP.push("cal","ly","lm","ld","lleap","kid","pf");
+  var o=null;try{var q=location.search.replace(/^\?/,"");if(q&&/(^|&)y=/.test(q)){o={};q.split("&").forEach(function(p){var kv=p.split("=");o[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]||"")})}}catch(x){}
+  if(!o){try{o=JSON.parse(localStorage.getItem("tb_inp")||"null")}catch(x){o=null}}if(o)try{setInp(o)}catch(x){}lunSync()})();
+(function(){var _r=render;render=function(){if($("cal").value==="L"&&!lunSync()){$("out").innerHTML='<div class="card miss">農曆日期錯誤：'+$("lunmsg").textContent+'</div>';return}_r()}})();
+
+/* ===== 3. extended 考刻 matching (text-only) ===== */
+var SXA="鼠牛虎兔龍蛇馬羊猴雞狗豬";
+function cnum(s){if(/^\d+$/.test(s))return +s;if(s==="兩")return 2;var t=s.indexOf("十");if(t<0)return CN.indexOf(s);return (t?CN.indexOf(s.charAt(0)):1)*10+(s.length>t+1?CN.indexOf(s.charAt(t+1)):0)}
+function kidNum(t){var m=/([一二三四五六七八九十兩]+)子送老/.exec(t)||/(?:該生|生|有|得)([一二三四五六七八九十兩]+)子/.exec(t);return m?cnum(m[1]):-1}
+function pfOf(t){if(/父先|先剋父|先克父|先刑父|先喪父|先亡父|母后歸|母後歸/.test(t))return "父";if(/母先|先剋母|先克母|先刑母|先喪母|先亡母|父后歸|父後歸/.test(t))return "母";return ""}
+function kkEval(text,i,male){var m=[],c=[];if(!text)text="";var fa=$("fa").value,mom=$("mom").value,sp=$("sp").value,sib=$("sib").value,kid=$("kid").value,pf=$("pf").value;
+  var hits=scoreKe(text,fa,mom,sp,sib,male);hits.forEach(function(h){m.push(h+"相符")});
+  var ani=function(){for(var k=0;k<12;k++)if(text.indexOf(SXA.charAt(k))>=0)return SXA.charAt(k);return ""}(),a=ani;
+  if(fa&&a&&/父|椿|嚴/.test(text)&&hits.indexOf("父")<0)c.push("父生肖不符（條文："+a+"）");
+  if(mom&&a&&/母|萱|慈/.test(text)&&hits.indexOf("母")<0)c.push("母生肖不符（條文："+a+"）");
+  if(sp&&a&&(male?/妻|婦|細君/:/夫|郎|良人/).test(text)&&hits.indexOf("配偶")<0)c.push("配偶生肖不符（條文："+a+"）");
+  if(sib!==""&&/兄|弟|姐|妹|昆|手足|雁/.test(text)){var sm=/([一二三四五六七八九十兩]+|\d+)[人個位]/.exec(text);if(sm&&cnum(sm[1])>0&&cnum(sm[1])!==+sib&&hits.indexOf("兄弟")<0)c.push("兄弟數不符（條文："+sm[1]+"）")}
+  if(kid!==""){var kn=kidNum(text);if(kn>=0){if(kn===+kid)m.push("子女數相符（"+kn+"）");else c.push("子女數不符（條文："+kn+"）")}}
+  if(pf){var p=pfOf(text);if(p){if(p===pf)m.push(p+"先相符");else c.push("先過世者不符（條文："+p+"先）")}}
+  var a2=KK.ans[i];if(a2===1)m.push("您答「對」");if(a2===-1)c.push("您答「不對」");return{m:m,c:c,s:m.length-c.length}}
+function kkRank(r,male){var ev=r.kes.map(function(k,i){return kkEval(k.ok?k.text:"",i,male)}),ord=[0,1,2,3,4,5,6,7];
+  ord.sort(function(a,b){return ev[b].s-ev[a].s||a-b});var top=ord[0],auto=(ev[top].s>0&&ev[top].s>ev[ord[1]].s)?top:-1;return{ev:ev,ord:ord,auto:auto}}
+var KKDB=null;function kkDbCount(){if(KKDB)return KKDB;var all=[],k;for(k in TB14T)all.push(TB14T[k].t);for(k in TEXTS)if(!TB14T[k])all.push(TEXTS[k].t);var c={n:all.length,kid:0,pf:0,sp:0};
+  all.forEach(function(t){if(kidNum(t)>=0)c.kid++;if(pfOf(t))c.pf++;if(/妻|夫|良人|細君/.test(t)&&/[鼠牛虎兔龍蛇馬羊猴雞狗豬]/.test(t))c.sp++});KKDB=c;return c}
+kkCard=function(r,male){var key=r.base+"|"+male;if(KK.key!==key){KK={key:key,ans:[0,0,0,0,0,0,0,0],lock:-1,ov:-1}}if(KK.ov==null)KK.ov=-1;
+  var R=kkRank(r,male),yes=[],rem=[];KK.ans.forEach(function(a,i){if(a===1)yes.push(i);if(a!==-1)rem.push(i)});
+  var old=yes.length===1?yes[0]:(yes.length===0&&rem.length===1?rem[0]:-1);KK.lock=KK.ov>=0?KK.ov:(R.auto>=0?R.auto:old);
+  var how=KK.ov>=0?"手動選定":(R.auto>=0?"自動定刻（分數最高）":(old>=0?"依對／不對排除":""));var db=kkDbCount();
+  var H='<h2>八刻條文・互動考刻</h2><p class="note">逐刻按「對／不對／不確定」，並可在上方填六親資料（父母／配偶生肖、兄弟數、子女數、父母先後）。每刻分數＝相符項數－矛盾項數，分數唯一最高者自動定為真刻，可手動改選。每刻 15 分鐘，逐刻加 1327。</p>';
+  H+='<details><summary>比對方法說明（請先讀）</summary><p class="note">本頁不使用任何未經文獻證實的「考刻數推算法」。比對方式：只拿八刻各自的條文原文做文字比對——條文明載生肖（如「父屬虎」）、人數（如「兄弟三人」、「該生二子」、「三子送老」）或先後（如「父先母后歸」）時，與您填的資料比較；條文沒提到者不加不減分。資料庫（本頁收錄 '+db.n+' 條）中含子女數字樣者 '+db.kid+' 條、含父母先後字樣者僅 '+db.pf+' 條、同時提到配偶與生肖者 '+db.sp+' 條，因此多數情況下這些欄位不會命中，分數以「對／不對」為主。</p></details>';
+  H+='<h3>定刻排名</h3><table><tr><th>名次</th><th>刻</th><th>分數</th><th>相符／矛盾</th><th></th></tr>';
+  R.ord.forEach(function(i,n){var e=R.ev[i];H+='<tr class="'+(KK.lock===i?'hit':'')+'"><td>'+(n+1)+'</td><td>'+KE[i]+'<br><small>'+r.kes[i].n+'</small></td><td><b>'+(e.s>0?"+":"")+e.s+'</b></td><td><small>'+(e.m.length?'✔ '+esc(e.m.join("、")):'')+(e.c.length?(e.m.length?'<br>':'')+'<span class="miss">✘ '+esc(e.c.join("、"))+'</span>':'')+(!e.m.length&&!e.c.length?'—':'')+'</small></td><td class="kbs"><button type="button" class="kb'+(KK.ov===i?' on':'')+'" data-kov="'+i+'">選此刻</button></td></tr>'});
+  H+='</table>'+(KK.ov>=0?'<button type="button" class="kb" data-kov="-1">改回自動定刻</button>':'')+(R.auto<0&&KK.ov<0?'<p class="note">目前無唯一最高分之刻，尚未自動定刻；請多核對幾刻。</p>':'');
+  H+='<p><b>剩餘候選：</b>'+(rem.length?rem.map(function(i){return KE[i]}).join("、"):'<span class="miss">全部排除，請重來</span>')+(yes.length>1?' <span class="miss">（多刻答「對」，以分數排名）</span>':'')+'</p>';
+  if(KK.lock>=0){var k=r.kes[KK.lock];H+='<div class="lock">🔒 真刻：'+KE[KK.lock]+'（條文號 '+k.n+'，'+how+'）<br>'+(k.ok?vh(k.n,k.text):"")+'</div>'}
+  H+='<table><tr><th>刻</th><th>條文</th><th>核對</th></tr>';
+  r.kes.forEach(function(k,i){var a=KK.ans[i];H+='<tr class="'+(KK.lock===i?'hit':a===-1?'out':'')+'"><td>'+KE[i]+'<br><small>'+k.n+'</small></td><td>'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(k.age)+'）</span>':'')+'</td><td class="kbs">'+
+    [[1,"對"],[-1,"不對"],[2,"不確定"]].map(function(b){return '<button type="button" class="kb'+(a===b[0]?' on':'')+'" data-ke="'+i+'" data-v="'+b[0]+'">'+b[1]+'</button>'}).join("")+'</td></tr>'});
+  H+='</table><button type="button" class="kb" data-kreset="1">重新考刻</button><p class="note">傳統「考刻條文序列」及 +10/+20/+50 推進法：未見可驗證的公開文件，未實作。</p>';
+  var nums=KK.lock>=0?[r.kes[KK.lock].n]:r.kes.map(function(k){return k.n});H+=catBlock(nums,male,KK.lock>=0?'真刻 '+KE[KK.lock]:'八刻');return H};
+
+/* ===== 5. 流年 jump + 今年／明年 ===== */
+(function(){var _ln=lnBlock;lnBlock=function(o){var cy=nowYear(),H='<div class="lock"><b>今年／明年流年</b><table>';
+  [cy,cy+1].forEach(function(yr,j){var r=null;o.ln.forEach(function(x){if(o.by+x.age-1===yr)r=x});H+='<tr><th>'+(j?"明年":"今年")+' '+yr+'</th><td>'+(r?'虛歲 '+r.age+'・'+r.gz+'<br>'+(r.n?'<small>'+r.n+'</small> '+tx(r.n):'<span class="miss">—（表無對應）</span>')+(r.n2?'<br><small>校正 '+r.n2+'</small> '+tx(r.n2):''):'<span class="miss">不在虛歲 1–108 範圍</span>')+'</td></tr>'});
+  H+='</table><div class="grid" style="margin-top:6px"><div><label>跳至年份</label><input id="jyear" type="number" value="'+cy+'"></div><div><label>&nbsp;</label><button type="button" class="kb" id="jybtn" style="width:100%">跳至該年</button></div></div><p class="note" id="jymsg"></p></div>';return H+_ln(o)}})();
+function jumpYear(){var y=String(+$("jyear").value),rs=document.querySelectorAll("#life table.ln tr"),hit=null,i;for(i=0;i<rs.length;i++){rs[i].className=rs[i].className.replace(/\s*jhit/g,"");var td=rs[i].children[1];if(td&&td.tagName==="TD"&&td.textContent===y)hit=rs[i]}
+  if(!hit){$("jymsg").innerHTML='<span class="miss">'+esc(y)+' 年不在流年表（虛歲 1–108）內</span>';return}$("jymsg").innerHTML="";hit.className+=" jhit";var dd=hit.parentNode;while(dd&&dd.tagName!=="DETAILS")dd=dd.parentNode;if(dd)dd.open=true;hit.scrollIntoView()}
+
+/* ===== 4. saved charts ===== */
+function chLoad(){try{return JSON.parse(localStorage.getItem("tb_charts")||"[]")||[]}catch(e){return[]}}
+function chSave(a){try{localStorage.setItem("tb_charts",JSON.stringify(a));return true}catch(e){$("chmsg").textContent="無法儲存（瀏覽器停用 localStorage）";return false}}
+function chList(){var a=chLoad(),H='';if(!a.length)H='<p class="note">尚無已存命盤。</p>';else{H='<table>';a.forEach(function(c,i){var p=c.i||{};H+='<tr><td><b>'+esc(c.n)+'</b><br><small>'+esc((p.cal==="L"?"農曆 "+p.ly+"/"+(p.lleap==="1"?"閏":"")+p.lm+"/"+p.ld+"・":"")+p.y+"-"+p.mo+"-"+p.d+" "+p.h+":"+p.mi+" "+p.sex)+'</small></td><td class="kbs"><button type="button" class="kb" data-chl="'+i+'">載入</button><button type="button" class="kb" data-chr="'+i+'">改名</button><button type="button" class="kb" data-chd="'+i+'">刪除</button></td></tr>'});H+='</table>'}$("chlist").innerHTML=H}
+function chAct(t){var a=chLoad(),i;
+  if(t.id==="chsave"){var n=($("chname").value||"").replace(/^\s+|\s+$/g,"");if(!n){var p=getInp();n=p.y+"-"+p.mo+"-"+p.d+" "+p.sex}var f=-1;a.forEach(function(c,j){if(c.n===n)f=j});var rec={n:n,i:getInp(),t:Date.now()};if(f>=0)a[f]=rec;else a.push(rec);if(chSave(a))$("chmsg").textContent=(f>=0?"已更新：":"已儲存：")+n;chList();return true}
+  if((i=t.getAttribute("data-chl"))!==null){var c=a[+i];if(c){setInp(c.i);lunSync();$("chname").value=c.n;safe();$("chmsg").textContent="已載入："+c.n}return true}
+  if((i=t.getAttribute("data-chr"))!==null){var c2=a[+i];if(c2){var nn=prompt("新名稱",c2.n);if(nn&&nn.replace(/\s/g,"")){c2.n=nn;chSave(a);chList()}}return true}
+  if((i=t.getAttribute("data-chd"))!==null){var c3=a[+i];if(c3&&confirm("刪除「"+c3.n+"」？")){a.splice(+i,1);chSave(a);chList()}return true}return false}
+
+/* ===== 7. search 條文 ===== */
+var SDB=null;function sdb(){if(SDB)return SDB;var o={},k,a=[];for(k in TEXTS)if(TEXTS[k].t)o[k]={n:+k,t:TEXTS[k].t,age:TEXTS[k].age,s:"八刻"};for(k in TB14T)if(TB14T[k].t){if(o[k])o[k].s+="・十四法";else o[k]={n:+k,t:TB14T[k].t,age:TB14T[k].age,s:"十四法"}}for(k in o)a.push(o[k]);a.sort(function(x,y){return x.n-y.n});SDB=a;return a}
+function doSearch(){var q=($("sq").value||"").replace(/^\s+|\s+$/g,""),a=sdb(),LIM=60,res=[];if(!q){$("sres").innerHTML="";return}
+  var num=/^\d+$/.test(q);a.forEach(function(e){if(num?String(e.n).indexOf(q)===0:e.t.indexOf(q)>=0)res.push(e)});
+  if(num)res.sort(function(x,y){return (String(y.n)===q)-(String(x.n)===q)||x.n-y.n});
+  var H='<p class="note">共 '+res.length+' 條'+(res.length>LIM?'，僅顯示前 '+LIM+' 條（請縮小關鍵字）':'')+'；搜尋範圍：本頁收錄之 '+a.length+' 條。</p>';
+  if(res.length){H+='<table><tr><th>條文號</th><th>條文</th></tr>';res.slice(0,LIM).forEach(function(e){var t=gl(e.t);if(!num){var eq=esc(q);t=t.split(eq).join('<mark>'+eq+'</mark>')}H+='<tr><td>'+e.n+'<br><small>'+e.s+'</small></td><td>'+t+(e.age?'<span class="age">（年齡註 '+esc(e.age)+'）</span>':'')+'</td></tr>'});H+='</table>'}
+  $("sres").innerHTML=H}
+
+(function(){var st=document.createElement("style");st.textContent=".kbs .kb,.kb{width:auto;letter-spacing:0;margin-top:2px}tr.jhit{background:#ffd27a}mark{background:#ffe08a}@media print{#charts,#srch{display:none!important}}";document.head.appendChild(st);
+  var inp=$("inp"),c=document.createElement("div");c.className="card";c.id="charts";c.innerHTML='<h2>命盤存檔</h2><div class="grid"><div><label>名稱</label><input id="chname" type="text" placeholder="例：本人"></div><div><label>&nbsp;</label><button type="button" class="kb" id="chsave" style="width:100%">儲存目前輸入</button></div></div><p class="note" id="chmsg"></p><div id="chlist"></div>';
+  inp.parentNode.insertBefore(c,inp.nextSibling);
+  var s=document.createElement("div");s.className="card";s.id="srch";s.innerHTML='<details><summary><b>搜尋條文</b>（關鍵字或條文號）</summary><div class="grid"><div><label>關鍵字／條文號</label><input id="sq" type="search" placeholder="例：椿萱、送老、1031"></div><div><label>&nbsp;</label><button type="button" class="kb" id="sbtn" style="width:100%">搜尋</button></div></div><div id="sres"></div></details>';
+  c.parentNode.insertBefore(s,c.nextSibling);chList();
+  $("sq").addEventListener("keydown",function(e){if(e.keyCode===13){e.preventDefault();doSearch()}});
+  var _oa=onAct;onAct=function(e){var t=e.target;if(t&&t.getAttribute){var kov=t.getAttribute("data-kov");if(kov!==null){KK.ov=+kov;rerenderKK();return true}
+    if(t.id==="sbtn"){doSearch();return true}if(t.id==="jybtn"){jumpYear();return true}if(chAct(t))return true}return _oa(e)}})();
 $("nojs").style.display="none";safe();
 }catch(err){var o=document.getElementById("out");if(o)o.innerHTML='<div class="card miss">程式載入錯誤：'+String(err&&err.message||err)+'</div>';}
 </script><div id="glpop"></div></body></html>
