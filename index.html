@@ -540,7 +540,7 @@ kkCard=function(r,male){var key=r.base+"|"+male;if(KK.key!==key){KK={key:key,ans
   R.ord.forEach(function(i,n){var e=R.ev[i];H+='<tr class="'+(KK.lock===i?'hit':'')+'"><td>'+(n+1)+'</td><td>'+KE[i]+'<br><small>'+r.kes[i].n+'</small></td><td><b>'+(e.s>0?"+":"")+e.s+'</b></td><td><small>'+(e.m.length?'✔ '+esc(e.m.join("、")):'')+(e.c.length?(e.m.length?'<br>':'')+'<span class="miss">✘ '+esc(e.c.join("、"))+'</span>':'')+(!e.m.length&&!e.c.length?'—':'')+'</small></td><td class="kbs"><button type="button" class="kb'+(KK.ov===i?' on':'')+'" data-kov="'+i+'">選此刻</button></td></tr>'});
   H+='</table>'+(KK.ov>=0?'<button type="button" class="kb" data-kov="-1">改回自動定刻</button>':'')+(R.auto<0&&KK.ov<0?'<p class="note">目前無唯一最高分之刻，尚未自動定刻；請多核對幾刻。</p>':'');
   H+='<p><b>剩餘候選：</b>'+(rem.length?rem.map(function(i){return KE[i]}).join("、"):'<span class="miss">全部排除，請重來</span>')+(yes.length>1?' <span class="miss">（多刻答「對」，以分數排名）</span>':'')+'</p>';
-  if(KK.lock>=0){var k=r.kes[KK.lock];H+='<div class="lock">🔒 真刻：'+KE[KK.lock]+'（條文號 '+k.n+'，'+how+'）<br>'+(k.ok?vh(k.n,k.text):"")+'</div>'}
+  if(KK.lock>=0){var k=r.kes[KK.lock];H+='<div class="lock" id="kkres" style="border:2px solid #b5462f;border-radius:10px;padding:10px 12px;margin:10px 0;background:#fff8ef"><h3 style="margin:0 0 6px;color:#b5462f">'+KE[KK.lock]+'（'+k.n+'）批命條文</h3><div style="font-size:1.15em;line-height:1.6"><b>'+k.n+'</b>　'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(String(k.age))+'）</span>':'')+'</div><p class="note" style="margin:6px 0 0">🔒 '+how+'。太玄數八刻每刻只對應這一條條文；下方「其他類別」補充僅列此刻條文。「一生批命」（十四法本命／流年，需切換至十四法系統才顯示）是另一系統，有自己的初刻／正刻，不隨此處所選之刻改變。</p></div>'}
   H+='<table><tr><th>刻</th><th>條文</th><th>核對</th></tr>';
   r.kes.forEach(function(k,i){var a=KK.ans[i];H+='<tr class="'+(KK.lock===i?'hit':a===-1?'out':'')+'"><td>'+KE[i]+'<br><small>'+k.n+'</small></td><td>'+(k.ok?vh(k.n,k.text):'<span class="miss">缺（無來源條文）</span>')+(k.age?'<span class="age">（年齡註 '+esc(k.age)+'）</span>':'')+'</td><td class="kbs">'+
     [[1,"對"],[-1,"不對"],[2,"不確定"]].map(function(b){return '<button type="button" class="kb'+(a===b[0]?' on':'')+'" data-ke="'+i+'" data-v="'+b[0]+'">'+b[1]+'</button>'}).join("")+'</td></tr>'});
@@ -579,7 +579,7 @@ function doSearch(){var q=($("sq").value||"").replace(/^\s+|\s+$/g,""),a=sdb(),L
   var s=document.createElement("div");s.className="card";s.id="srch";s.innerHTML='<details><summary><b>搜尋條文</b>（關鍵字或條文號）</summary><div class="grid"><div><label>關鍵字／條文號</label><input id="sq" type="search" placeholder="例：椿萱、送老、1031"></div><div><label>&nbsp;</label><button type="button" class="kb" id="sbtn" style="width:100%">搜尋</button></div></div><div id="sres"></div></details>';
   c.parentNode.insertBefore(s,c.nextSibling);chList();
   $("sq").addEventListener("keydown",function(e){if(e.keyCode===13){e.preventDefault();doSearch()}});
-  var _oa=onAct;onAct=function(e){var t=e.target;if(t&&t.getAttribute){var kov=t.getAttribute("data-kov");if(kov!==null){KK.ov=+kov;rerenderKK();return true}
+  var _oa=onAct;onAct=function(e){var t=e.target;if(t&&t.getAttribute){var kov=t.getAttribute("data-kov");if(kov!==null){KK.ov=+kov;rerenderKK();var rb=$("kkres");if(rb&&rb.scrollIntoView){try{rb.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){rb.scrollIntoView(true)}}return true}
     if(t.id==="sbtn"){doSearch();return true}if(t.id==="jybtn"){jumpYear();return true}if(chAct(t))return true}return _oa(e)}})();
 /* ===== v8: full 12000 條 lazy-load ===== */
 var FULL={st:0,n:0};
