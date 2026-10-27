@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鐵板神數取數論命各技術計算過程大公開</title>
+<style>
+body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:#f7f1e6;color:#2b1d10;font-size:15px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:10px}
+h1{font-size:21px;margin:8px 0 2px;color:#7a3b12}h2{font-size:18px;margin:0}h3{font-size:16px;margin:12px 0 6px;color:#7a3b12}
+.btnl{display:block;margin:8px 0;padding:12px;border-radius:10px;background:#8a5a2b;color:#fff;text-align:center;font-weight:bold;text-decoration:none}
+.card{background:#fff;border-radius:12px;padding:10px 12px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.grid{display:flex;flex-wrap:wrap;gap:6px}.grid>div{flex:1 0 30%;min-width:96px}
+label{font-size:12px;color:#6b5540;display:block}input,select{width:100%;box-sizing:border-box;padding:7px;font-size:16px;border:1px solid #c9b79c;border-radius:6px;background:#fff}
+input[type=checkbox]{width:auto}.ck{display:inline-block;margin:6px 10px 0 0;font-size:13px;color:#2b1d10}
+.note{font-size:12.5px;color:#6b5540}.miss{color:#b23;}
+details.sec{background:#fff;border-radius:12px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+details.sec>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:16px;color:#7a3b12;list-style:none}
+details.sec>summary::-webkit-details-marker{display:none}details.sec>summary:before{content:"▸ "}details.sec[open]>summary:before{content:"▾ "}
+.sb{padding:0 12px 12px}.dbadge{display:inline-block;background:#b5462f;color:#fff;font-size:11px;border-radius:4px;padding:0 5px;margin-left:6px;font-weight:normal}
+ol.steps{padding-left:22px;margin:6px 0}ol.steps li{margin:5px 0}
+.st{display:flex;gap:6px}.st .c{flex:1;min-width:0;word-break:break-all}.st .c.b{border-left:2px solid #e5d6bd;padding-left:6px}
+li.diff{background:#fff1b8;border-radius:6px}.res{background:#fff8ef;border:2px solid #b5462f;border-radius:10px;padding:8px 10px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #e5d6bd;padding:3px 5px;text-align:left;vertical-align:top}th{background:#f3e8d6}
+tr.diff td{background:#fff1b8}.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;margin:8px 0}
+.flow a{display:block;padding:8px 10px;border:2px solid #8a5a2b;border-radius:8px;background:#fffaf2;color:#5a3a1b;text-decoration:none;font-weight:bold;font-size:13px;text-align:center}
+.flow .ar{color:#8a5a2b;font-weight:bold}.flow .pair{display:flex;flex-direction:column;gap:4px}
+.toc li{margin:4px 0}.toc a{color:#7a3b12;font-weight:bold}.colh{font-size:12px;font-weight:bold;color:#fff;background:#8a5a2b;border-radius:4px;padding:0 6px;display:inline-block}
+.colh.b{background:#2f6b8a}#cmpsum{font-weight:bold;color:#b5462f}
+.sin{margin:6px 0;background:#faf5ec;border-radius:8px;padding:4px 8px}.sin summary{font-size:13px;color:#7a3b12;cursor:pointer}
+</style></head><body><div class="wrap">
+<h1>鐵板神數取數論命各技術計算過程大公開</h1>
+<div class="note">本頁逐步公開本站每一種取數、論命技術的計算過程。所有結果直接呼叫批命頁（index.html）同一份程式碼計算，與批命頁結果一致；條文原文照錄，不增改一字。</div>
+<a class="btnl" href="index.html">← 回到鐵板神數批命（論命頁）</a>
+<div id="engmsg" class="note">計算引擎載入中…</div>
+
+<div class="card"><h2>共用輸入（A）</h2><div id="inA"></div>
+<label class="ck" style="font-size:15px;margin-top:10px"><input type="checkbox" id="cmpon"> <b>比較模式</b>：另設一組輸入（B），兩組並排、標示差異</label>
+<div id="inBw" style="display:none;margin-top:8px;border-top:2px solid #2f6b8a;padding-top:6px"><h2 style="color:#2f6b8a">比較輸入（B）</h2><div id="inB"></div></div>
+<div id="cmpsum"></div></div>
+
+<div class="card"><h2>目錄與流程</h2>
+<div class="flow"><a href="#s1">生辰輸入</a><span class="ar">→</span><a href="#s1">① 時間校正</a><span class="ar">→</span><a href="#s2">② 八字排盤</a><span class="ar">→</span><a href="#s3">③ 大運</a></div>
+<div class="flow"><span class="ar">↓</span></div>
+<div class="flow"><div class="pair"><a href="#s5">⑤ 太玄數八刻法</a><a href="#s4">④ 農曆換算</a><a href="#s6">⑥ 十四法</a></div><span class="ar">→</span><a href="#s7">⑦ 考刻・定刻</a><span class="ar">→</span><a href="#s5">條文</a></div>
+<ol class="toc" id="toc"></ol></div>
+<div id="secs"></div>
+<a class="btnl" href="index.html">← 回到鐵板神數批命（論命頁）</a>
+<iframe id="eng" src="index.html" style="display:none" title="engine"></iframe>
+</div>
+<script>
+(function(){
+var E=null,G={},SEC=[],CUSTOM={},timer=null;
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function pad(n){return(n<10?"0":"")+n}
+var ZH="子丑寅卯辰巳午未申酉戌亥",SXS="鼠牛虎兔龍蛇馬羊猴雞狗豬";
+function zopt(){var h='<option value="">（不填）</option>';for(var i=0;i<12;i++)h+='<option value="'+ZH.charAt(i)+'">'+ZH.charAt(i)+'（'+SXS.charAt(i)+'）</option>';return h}
+var F={
+ cal:{l:"曆法",h:function(p){return '<select id="'+p+'cal"><option value="S">國曆</option><option value="L">農曆</option></select>'}},
+ y:{l:"國曆年",t:"number"},mo:{l:"月",t:"number"},d:{l:"日",t:"number"},h:{l:"時（0–23）",t:"number"},mi:{l:"分",t:"number"},
+ ly:{l:"農曆年",t:"number"},lm:{l:"農曆月",t:"number"},ld:{l:"農曆日",t:"number"},lleap:{l:"閏月",c:1},
+ sex:{l:"性別",h:function(p){return '<select id="'+p+'sex"><option>男</option><option>女</option></select>'}},
+ zi:{l:"晚子時即換日柱",c:1},
+ reg:{l:"出生地",h:function(p){return '<select id="'+p+'reg"><option value="tw">台灣</option><option value="cn">中國大陸</option><option value="hk">香港</option><option value="other">其他（手動時區）</option></select>'}},
+ utc:{l:"UTC 時差（其他地區）",t:"number"},lon:{l:"經度（東經）",t:"number"},tst:{l:"使用真太陽時",c:1},
+ fa:{l:"父親生肖",z:1},mom:{l:"母親生肖",z:1},sp:{l:"配偶生肖",z:1},sib:{l:"兄弟姊妹人數（含本人）",t:"number"},kid:{l:"子女人數",t:"number"},
+ pf:{l:"父母何者先過世",h:function(p){return '<select id="'+p+'pf"><option value="">（不填）</option><option value="父">父親先</option><option value="母">母親先</option></select>'}},
+ ke14:{l:"十四法刻別",h:function(p){var s='<select id="'+p+'ke14"><option value="">自動（原程式規則）</option><option value="初刻">初刻</option><option value="正刻">正刻</option>';var n=["一","二","三","四","五","六","七","八"];for(var i=0;i<8;i++)s+='<option value="k'+i+'">'+n[i]+'刻（本站慣例→'+(i<4?"初刻":"正刻")+'）</option>';return s+'</select>'}}
+};
+var ALL=["cal","y","mo","d","h","mi","ly","lm","ld","lleap","sex","zi","reg","utc","lon","tst","ke14","fa","mom","sp","sib","kid","pf"];
+var DEFA={cal:"S",y:1962,mo:8,d:8,h:0,mi:10,ly:1962,lm:7,ld:9,lleap:false,sex:"男",zi:false,reg:"tw",utc:8,lon:121.5,tst:false,ke14:"",fa:"",mom:"",sp:"",sib:"",kid:"",pf:""};
+var DEFB={cal:"S",y:1990,mo:5,d:20,h:14,mi:30,ly:1990,lm:4,ld:26,lleap:false,sex:"女",zi:false,reg:"tw",utc:8,lon:121.5,tst:false,ke14:"",fa:"",mom:"",sp:"",sib:"",kid:"",pf:""};
+function form(p,ids){var h='<div class="grid">',ck='';ids.forEach(function(k){var f=F[k];if(f.c){ck+='<label class="ck"><input type="checkbox" id="'+p+k+'"> '+f.l+'</label>';return}
+  h+='<div><label>'+f.l+'</label>'+(f.h?f.h(p):f.z?'<select id="'+p+k+'">'+zopt()+'</select>':'<input id="'+p+k+'" type="'+(f.t||"text")+'" inputmode="numeric">')+'</div>'});return h+'</div>'+ck}
+function fill(p,ids,v){ids.forEach(function(k){var e=$(p+k);if(!e)return;if(F[k].c)e.checked=!!v[k];else e.value=v[k]==null?"":v[k]})}
+function read(p,ids,base){var o={},k;for(k in base)o[k]=base[k];ids.forEach(function(k){var e=$(p+k);if(!e)return;o[k]=F[k].c?e.checked:e.value});return o}
+function inpA(){return read("A_",ALL,DEFA)}function inpB(){return read("B_",ALL,DEFB)}
+
+/* ---- engine run: same code as index.html ---- */
+function run(I){var R={I:I,err:""},$e=E.$;
+  ["y","mo","d","h","mi","sex","reg","utc","lon","fa","mom","sp","sib","kid","pf"].forEach(function(k){var e=$e(k);if(e)e.value=I[k]});$e("zi").checked=!!I.zi;$e("tst").checked=!!I.tst;
+  if(I.cal==="L"){var s=E.l2s(+I.ly,+I.lm,!!I.lleap,+I.ld);R.l2s=s;if(typeof s==="string"){R.err=s;return R}$e("y").value=s.y;$e("mo").value=s.mo;$e("d").value=s.d;R.y=s.y;R.mo=s.mo;R.d=s.d}
+  var c=E.birthCorr();R.c=c;R.JS=E.get("__JS");var male=$e("sex").value==="男";R.male=male;
+  if(isNaN(c.y+c.mo+c.d+c.h+c.mi)||c.mo<1||c.mo>12||c.d<1||c.d>31||c.h<0||c.h>23||c.mi<0||c.mi>59){R.err="請輸入正確的日期時間";return R}
+  var r=E.compute(c.y,c.mo,c.d,c.h,c.mi,male,!!I.zi);if(typeof r==="string"){R.err=r;return R}R.r=r;
+  var ke=I.ke14||"";if(/^k\d$/.test(ke))ke=+ke.charAt(1)<4?"初刻":"正刻";R.ke=ke;
+  E.birthCorr();try{R.o=E.lifeCalc(c.y,c.mo,c.d,c.h,c.mi,male,null,ke)}catch(x){R.o=null}
+  E.birthCorr();R.kk=E.kkRank(r,male);return R}
+function V(n){var T=E.get("TEXTS"),U=E.get("TB14T");var e=T[n]&&T[n].t?T[n]:U[n];if(!e||!e.t)return '<span class="miss">（本頁未收錄此條）</span>';return esc(e.t)+(e.age?'<span class="note">（年齡註 '+esc(e.age)+'）</span>':'')}
+function VT(n){var T=E.get("TEXTS"),U=E.get("TB14T");var e=T[n]&&T[n].t?T[n]:U[n];return e&&e.t?e.t:""}
+/* step helper: s(key,label,html[,cmpText]) */
+function S(arr,k,l,h,c){arr.push({k:k,l:l,h:h,c:c==null?String(h).replace(/<[^>]+>/g,""):c})}
+
+var GAN,ZHI;
+function gz(i){i=((i%60)+60)%60;return GAN.charAt(i%10)+ZHI.charAt(i%12)}
+/* ---------- section builders ---------- */
+SEC.push({id:"s1",t:"① 時間校正（夏令時間・真太陽時・早晚子時）",sum:"把出生地鐘錶時間換算為 UTC+8 標準時，可選真太陽時，並判斷早／晚子時。",
+ src:"夏令／戰時時間：IANA tz 資料庫（台灣、大陸、香港歷年）。真太陽時：平太陽時差 (經度−120°)×4 分，加均時差（近似公式 9.87sin2B−7.53cosB−1.5sinB，B＝2π(年日序−81)/364）。早／晚子時：依使用者選項。",
+ f:["y","mo","d","h","mi","reg","utc","lon","tst","zi"],
+ b:function(R){var a=[],c=R.c,i=c.in_,J=E.get("JD1900");
+  S(a,"in","輸入鐘錶時間",i.y+"-"+pad(i.mo)+"-"+pad(i.d)+" "+pad(i.h)+":"+pad(i.mi)+"（"+({tw:"台灣",cn:"中國大陸",hk:"香港",other:"其他"})[R.I.reg]+"）");
+  var off=c.off==null?480:c.off;S(a,"off","當地時制（tz 查表）","UTC"+(off>=0?"+":"")+(off/60)+(off!==480?"（與 UTC+8 差 "+(off-480)+" 分）":"（＝UTC+8，不需換算）"));
+  var L=(E.jdn(i.y,i.mo,i.d)-J)*1440+i.h*60+i.mi,t8=L-(off-480);S(a,"t8","換算 UTC+8 標準時","輸入 −（"+off+"−480）分 ＝ "+E.fromMin(t8));
+  if(R.I.tst){var lon=parseFloat(R.I.lon),jd=Math.floor(t8/1440)+J,e=E.eot(jd);S(a,"lmt","平太陽時差","(經度 "+lon+" − 120) × 4 ＝ "+((lon-120)*4).toFixed(1)+" 分");S(a,"eot","均時差（JD "+jd+"）",e.toFixed(1)+" 分");
+    S(a,"sol","真太陽時","標準時 "+((lon-120)*4>=0?"+":"")+((lon-120)*4).toFixed(1)+" "+(e>=0?"+":"")+e.toFixed(1)+" → 四捨五入 "+(-R.JS>=0?"+":"")+(-R.JS)+" 分")}else S(a,"lmt","真太陽時","未勾選，不校正");
+  S(a,"out","校正後出生時間",c.y+"-"+pad(c.mo)+"-"+pad(c.d)+" "+pad(c.h)+":"+pad(c.mi)+"，"+ZHI.charAt(Math.floor((c.h+1)/2)%12)+"時");
+  S(a,"zi","子時判斷",c.h===23?(R.I.zi?"23 時＝晚子時，已勾選「即換日柱」→ 日柱用次日":"23 時＝晚子時，不換日柱；時干依次日日干起（五鼠遁）"):c.h===0?"0 時＝早子時，日柱依當日":"非子時，不適用");
+  (c.notes||[]).forEach(function(n,j){S(a,"note"+j,"程式說明",esc(n))});
+  return {a:a,res:'<b>校正後：</b>'+c.y+"-"+pad(c.mo)+"-"+pad(c.d)+" "+pad(c.h)+":"+pad(c.mi)}}});
+SEC.push({id:"s2",t:"② 八字排盤（年・月・日・時柱）",sum:"年柱以立春分界、月柱以十二節分界、日柱以儒略日序數 mod 60、時柱以五鼠遁。",
+ src:"傳統子平排盤法：年上起月（五虎遁）、日上起時（五鼠遁）。節氣時刻為本站內建天文節氣表（UTC+8）。",
+ f:["y","mo","d","h","mi","zi","reg","tst","lon"],
+ b:function(R){var a=[],c=R.c,r=R.r,J=E.get("JD1900"),JM=E.get("JIE_MIN"),JIE=E.get("JIE");
+  var jd=E.jdn(c.y,c.mo,c.d),t=(jd-J)*1440+c.h*60+c.mi+R.JS,k=-1;for(var i=0;i<JM.length;i++){if(JM[i]<=t)k=i;else break}
+  S(a,"jd","儒略日 JD（"+c.y+"-"+pad(c.mo)+"-"+pad(c.d)+"）",String(jd));
+  S(a,"jie","所在節令（交節時刻）",JIE[k%12]+" "+E.fromMin(JM[k])+" 之後；下一節 "+JIE[(k+1)%12]+" "+E.fromMin(JM[k+1]));
+  var sy=k===0?1898:1899+Math.floor((k-1)/12),yIdx=sy-4,yG=((yIdx%10)+10)%10;
+  S(a,"yr","年柱（以立春為歲首）","節氣年 "+sy+"；("+sy+" − 4) mod 60 ＝ "+(((yIdx%60)+60)%60)+" → <b>"+gz(yIdx)+"</b>");
+  var mZ=(1+k)%12,mG=(yG%5*2+2+(mZ-2+12)%12)%10;S(a,"mo","月柱（五虎遁）","月支＝"+ZHI.charAt(mZ)+"（"+JIE[k%12]+"起）；月干＝(年干序 "+yG+" mod 5 ×2 ＋2 ＋(月支序 "+mZ+"−2) mod 12) mod 10 ＝ "+mG+" → <b>"+GAN.charAt(mG)+ZHI.charAt(mZ)+"</b>");
+  var dj=jd;if(c.h===23&&R.I.zi)dj+=1;var dI=(dj+49)%60;S(a,"dy","日柱（JD mod 60）","("+dj+" ＋ 49) mod 60 ＝ "+dI+" → <b>"+gz(dI)+"</b>"+(dj!==jd?"（晚子換日，JD＋1）":""));
+  var hZ=Math.floor((c.h+1)/2)%12,sd=c.h===23&&!R.I.zi?(dI+1)%10:dI%10,hG=(sd%5*2+hZ)%10;S(a,"hr","時柱（五鼠遁）","時支＝⌊("+c.h+"＋1)/2⌋ mod 12 ＝ "+hZ+"（"+ZHI.charAt(hZ)+"）；時干＝(日干序 "+sd+" mod 5 ×2 ＋"+hZ+") mod 10 ＝ "+hG+" → <b>"+GAN.charAt(hG)+ZHI.charAt(hZ)+"</b>");
+  var mine=[gz(yIdx),GAN.charAt(mG)+ZHI.charAt(mZ),gz(dI),GAN.charAt(hG)+ZHI.charAt(hZ)].join(" "),eng=r.pillars.join(" ");
+  S(a,"chk","與批命頁程式核對",mine===eng?"✔ 一致（"+eng+"）":'<span class="miss">✘ 不一致：逐步 '+mine+"／程式 "+eng+"</span>");
+  return {a:a,res:'<b>四柱：</b>'+r.pillars.join("　")}}});
+SEC.push({id:"s3",t:"③ 大運（順逆・起運歲）",sum:"陽男陰女順排、陰男陽女逆排；出生至前／後一節的時間，三日折一年為起運歲。",
+ src:"子平法大運起法（三日一年、一日四月、一時辰十日）。",f:["y","mo","d","h","mi","sex"],
+ b:function(R){var a=[],r=R.r,c=R.c,J=E.get("JD1900"),JM=E.get("JIE_MIN"),JIE=E.get("JIE");var jd=E.jdn(c.y,c.mo,c.d),t=(jd-J)*1440+c.h*60+c.mi+R.JS,k=-1;for(var i=0;i<JM.length;i++){if(JM[i]<=t)k=i;else break}
+  var yang="甲丙戊庚壬".indexOf(r.pillars[0].charAt(0))>=0;S(a,"yy","年干陰陽",r.pillars[0].charAt(0)+"為"+(yang?"陽":"陰")+"干；"+(R.male?"男":"女")+"命");
+  S(a,"dir","順逆規則",r.forward?"陽男／陰女 → 順排（數到下一節）":"陰男／陽女 → 逆排（數回上一節）");
+  var df=r.forward?JM[k+1]-t:t-JM[k];S(a,"df","距"+(r.forward?"下一節 "+JIE[(k+1)%12]:"上一節 "+JIE[k%12]),df+" 分 ＝ "+(df/1440).toFixed(2)+" 日");
+  S(a,"qy","三日折一年",(df/1440).toFixed(2)+" 日 ÷ 3 ＝ "+(df/4320).toFixed(3)+" 年 → 起運 "+r.qiYun);
+  var tb='<table><tr><th>運</th><th>大運</th><th>起運歲</th><th>年</th></tr>';r.dayun.forEach(function(x,i){tb+='<tr><td>'+(i+1)+'</td><td>'+x.gz+'</td><td>'+x.age.toFixed(1)+'</td><td>'+x.year+'</td></tr>'});
+  S(a,"seq","大運序列（由月柱 "+r.pillars[1]+" "+(r.forward?"順":"逆")+"推）",tb+'</table>',r.dayun.map(function(x){return x.gz+x.age.toFixed(1)}).join(","));
+  return {a:a,res:'<b>起運：</b>'+r.qiYun+'；首運 '+r.dayun[0].gz}}});
+SEC.push({id:"s4",t:"④ 農曆換算",sum:"以內建農曆表（1899–2101 每年月大小與閏月）由儒略日推得農曆月日；亦可由農曆輸入換成國曆。",
+ src:"本站內建農曆壓縮表（每年 5 位十六進位：12 個月大小位元＋閏月月份＋閏月大小），起點 JD 2414696（1899 年正月初一）。",f:["cal","ly","lm","ld","lleap","y","mo","d","h"],
+ b:function(R){var a=[],c=R.c,LUN=E.get("LUN");
+  if(R.I.cal==="L")S(a,"l2s","農曆輸入 → 國曆","農曆 "+R.I.ly+" 年"+(R.I.lleap?"閏":"")+R.I.lm+"月"+R.I.ld+"日 ＝ 國曆 "+R.l2s.y+"-"+R.l2s.mo+"-"+R.l2s.d);
+  var jd=E.jdn(c.y,c.mo,c.d),start=2414696,yi,v;for(yi=0;yi<LUN.length/5;yi++){v=parseInt(LUN.substr(yi*5,5),16);var bits=v>>5,lp=(v>>1)&15,lb=v&1,len=0,ms=[];for(var m=1;m<=12;m++){var dd=(bits>>(12-m))&1?30:29;ms.push(m+"月"+dd);len+=dd;if(m===lp){ms.push("閏"+m+"月"+(lb?30:29));len+=lb?30:29}}
+    if(jd<start+len){S(a,"jd","儒略日","JD "+jd);S(a,"yr","查表：農曆 "+(1899+yi)+" 年","表值 0x"+LUN.substr(yi*5,5)+"；正月初一 JD "+start+"；"+(lp?"閏"+lp+"月":"無閏月")+"；全年 "+len+" 日");
+      S(a,"ms","各月日數",ms.join("、"));S(a,"off","年內第幾日","JD "+jd+" − "+start+" ＋ 1 ＝ 第 "+(jd-start+1)+" 日");break}start+=len}
+  var L=E.lunarNum(jd);S(a,"res","農曆日期",R.r.lunar+(L?"（"+(L.leap?"閏":"")+L.m+"月"+L.d+"日）":""));
+  if(c.h>=23)S(a,"z14","十四法注意","十四法依原程式：23 時以後以次日計農曆日");
+  return {a:a,res:'<b>農曆：</b>'+R.r.lunar}}});
+SEC.push({id:"s5",t:"⑤ 太玄數八刻法（起卦・基本數・八刻條文）",sum:"年、月柱干支取太玄數相加，mod 8 得上下卦；取互卦組成基本數；每刻加 1327 得八刻條文號。",
+ src:'太玄數：甲己子午九、乙庚丑未八、丙辛寅申七、丁壬卯酉六、戊癸辰戌五、巳亥四。算法依 <a href="https://tbss.bmfsm.net/algorithm" target="_blank" rel="noopener">tbss.bmfsm.net/algorithm</a>。條文：xaminxan/tiebanshenshu《鐵板神數-條文斷詞》。',f:["y","mo","d","h","mi"],
+ b:function(R){var a=[],r=R.r,P=r.pillars,TX=E.get("TAIXUAN"),TRI=E.get("TRI"),TL=E.get("TRI_LINES"),HEX=E.get("HEX"),KE=E.get("KE");
+  S(a,"yn","年數（年柱太玄數）",P[0].charAt(0)+TX[P[0].charAt(0)]+" ＋ "+P[0].charAt(1)+TX[P[0].charAt(1)]+" ＝ "+r.yearNum);
+  S(a,"mn","月數（月柱太玄數）",P[1].charAt(0)+TX[P[1].charAt(0)]+" ＋ "+P[1].charAt(1)+TX[P[1].charAt(1)]+" ＝ "+r.monthNum);
+  S(a,"up","上卦＝月數 mod 8（0 作 8）",r.monthNum+" mod 8 → "+r.up+"（"+TRI[r.up]+"）");S(a,"lo","下卦＝年數 mod 8（0 作 8）",r.yearNum+" mod 8 → "+r.lo+"（"+TRI[r.lo]+"）");
+  S(a,"hx","本卦",TRI[r.up]+"上"+TRI[r.lo]+"下・<b>"+HEX[r.up][r.lo]+"</b>");
+  var L=TL[r.lo].concat(TL[r.up]);S(a,"ln","六爻（初爻→上爻，1 陽 0 陰）",L.join(""));
+  S(a,"hu","互卦","下互＝二至四爻 "+L.slice(1,4).join("")+" → "+TRI[r.loHu]+"（"+r.loHu+"）；上互＝三至五爻 "+L.slice(2,5).join("")+" → "+TRI[r.upHu]+"（"+r.upHu+"）");
+  var th=(r.up+6)%10;S(a,"th","千位＝(上卦數＋6) mod 10（0 則用上卦數）","("+r.up+"＋6) mod 10 ＝ "+th+(th===0?" → "+r.up:""));
+  S(a,"base","基本數＝千位×1000＋上卦×100＋上互×10＋下互",(th||r.up)+"×1000＋"+r.up+"×100＋"+r.upHu+"×10＋"+r.loHu+" ＝ <b>"+r.base+"</b>");
+  var tb='<table><tr><th>刻</th><th>算式</th><th>條文</th></tr>';r.kes.forEach(function(k,i){var raw=r.base+1327*i;tb+='<tr><td>'+KE[i]+'</td><td>'+r.base+'＋1327×'+i+'＝'+raw+(raw>13000?'−12000':'')+'＝<b>'+k.n+'</b></td><td>'+V(k.n)+'</td></tr>'});
+  S(a,"kes","八刻條文號（超過 13000 減 12000）",tb+'</table>',r.kes.map(function(k){return k.n+VT(k.n)}).join("|"));
+  return {a:a,res:'<b>'+HEX[r.up][r.lo]+'・基本數 '+r.base+'</b>；八刻：'+r.kes.map(function(k){return k.n}).join("、")}}});
+SEC.push({id:"s6",t:"⑥ 十四法（一生批命：本命・流年）",sum:"先天命數→五音→日命・時運→初／正刻→十二辟卦→本命數→本命條文；後天命數→流年四聲・標記・字母→流年條文。",
+ src:'逐步移植自公開程式 <a href="https://github.com/xaminxan/tiebanshenshu" target="_blank" rel="noopener">xaminxan/tiebanshenshu</a>（main.py，14-1～14-14 數表）。「一～四刻→初刻、五～八刻→正刻」為<b>本站慣例</b>（取時辰前一小時為初、後一小時為正），原程式本身以「陰陽男女＋日命時運和」規則自動判定。',f:["y","mo","d","h","mi","sex","ke14"],
+ b:function(R){var a=[],o=R.o,T=E.get("TB14"),HX=E.get("TB14HEX");if(!o){S(a,"x","結果","無法推算（日期超出範圍）");return{a:a,res:"—"}}
+  var mI=o.L.m+(o.L.leap?1:0);if(mI>12)mI=1;var tZ=o.B.pillars[3].charAt(1);
+  S(a,"lm","農曆月（14-1 月數）",(o.L.leap?"閏":"")+o.L.m+"月"+(o.L.leap?"（閏月按下月）":"")+" → 月數 "+(T.t1[String(mI)]||mI));
+  S(a,"tz","時支數（14-2）",tZ+" → "+(T.t2[tZ]||0));
+  S(a,"cong","先天命數＝月數＋3－時支數（≤0 加 12）",o.congF+" ＝ <b>"+o.cong+"</b>");
+  var gg=["甲己","乙庚","丙辛","丁壬","戊癸"][GAN.indexOf(o.B.pillars[0].charAt(0))%5];S(a,"tone","五音（14-3：先天命數×年干組 "+gg+"）",o.tone.replace("宫","宮")+" → 五音數 "+o.toneN+"（14-4）");
+  S(a,"dl","日命（14-5：日柱納音×求測時干）","日柱 "+o.B.pillars[2]+"（"+E.nayin(o.B.pillars[2])+"）× 時干 "+o.Q.pillars[3].charAt(0)+" → "+o.dayLife);
+  S(a,"tl","時運（14-6：時柱納音）","時柱 "+o.Q.pillars[3]+"（"+E.nayin(o.Q.pillars[3])+"）→ "+o.timeLuck+"（求測時間預設＝出生時刻）");
+  var sum=o.dayLife+o.timeLuck;S(a,"rule","初／正刻規則（原程式）",o.grp.replace(/阳/g,"陽").replace(/阴/g,"陰")+"，日命＋時運＝"+sum+"（"+(sum>6?">6":"≤6")+"）→ 自動 <b>"+o.keAuto+"</b>");
+  var sel=R.I.ke14||"";S(a,"ke","本次採用刻別",(sel===""?"自動":/^k/.test(sel)?["一","二","三","四","五","六","七","八"][+sel.charAt(1)]+"刻 → 本站慣例 ":"手動 ")+"<b>"+o.ke+"</b>");
+  S(a,"main","本命數＝(五音數×5＋日命＋時運"+(sum<=6?"－1":"－6")+")×30＋農曆日",o.mainF+" ＝ <b>"+o.main+"</b>");
+  S(a,"hex","十二辟卦（14-9：刻別＋本命數）",o.ke+"｜"+o.main+" → <b>"+(HX[o.hex]||o.hex||"（表無此數）")+"</b>");
+  var cats=[["性格","性情"],["才能前程","事業・前程"],["财运","財祿"],["兄弟个数","六親・兄弟"]],tb='<table><tr><th>類別</th><th>算式</th><th>條文</th></tr>',ct=[];
+  if(o.tbl){cats.forEach(function(c){(o.tbl.offsets[c[0]]||[]).forEach(function(off){var n=o.tbl.base+o.tbl.seq+off;ct.push(n+VT(n));tb+='<tr><td>'+c[1]+'</td><td>'+o.tbl.base+'＋'+o.tbl.seq+'＋'+off+'＝<b>'+n+'</b></td><td>'+V(n)+'</td></tr>'})});
+    S(a,"tbl","本命條文（14-10：辟卦｜刻別｜先天命數 → 基數＋序數＋各類加數）",(HX[o.hex]||o.hex)+"｜"+o.ke+"｜"+o.cong+" → 基數 "+o.tbl.base+"、序數 "+o.tbl.seq+tb+"</table>",ct.join("|"))}
+  else S(a,"tbl","本命條文（14-10）",'<span class="miss">表中無此組合，原資料未收錄，不補造</span>');
+  S(a,"pn","後天命數＝(先天命數＋本命數) mod 8（0 作 8）","("+o.cong+"＋"+o.main+") mod 8 ＝ "+o.pn);
+  var yZ=o.B.pillars[0].charAt(1),yG=o.B.pillars[0].charAt(0),bg="寅午戌";if("申子辰".indexOf(yZ)>=0)bg="申子辰";else if("巳酉丑".indexOf(yZ)>=0)bg="巳酉丑";else if("亥卯未".indexOf(yZ)>=0)bg="亥卯未";
+  var st=T.lstart[o.cong+"|"+bg+"|"+(R.male?"男":"女")]||T.lstart["generic|"+bg+"|"+(R.male?"男":"女")]||0;S(a,"ls","流年四聲起點（14-11：先天命數｜年支三合｜性別）",o.cong+"｜"+bg+"｜"+(R.male?"男":"女")+" → 起於第 "+st+" 位");
+  var lt='<table><tr><th>虛歲</th><th>年</th><th>干支</th><th>四聲</th><th>標記</th><th>字母</th><th>條文號</th><th>條文</th></tr>',lc=[];
+  o.ln.forEach(function(x){lc.push(x.age+":"+(x.n||"")+"/"+(x.n2||""));lt+='<tr><td>'+x.age+'</td><td>'+x.year+'</td><td>'+x.gz+'</td><td>'+x.snd+'</td><td>'+x.mk+'</td><td>'+x.let_+'</td><td>'+(x.n?x.f+'＝'+x.n+(x.n2?'<br>校正 '+x.f2+'＝'+x.n2:''):'—')+'</td><td>'+(x.n?V(x.n):'')+(x.n2?'<br>'+V(x.n2):'')+'</td></tr>'});
+  S(a,"ln","流年條文（每歲：干支→四聲（14-11）＋標記（14-12，後天命數 "+o.pn+"）→ 字母（14-13，刻別＋奇偶）→ 基數＋加數（14-14）；校正數依原程式規則）",'<details><summary>展開 108 歲流年計算表</summary>'+lt+'</table></details>',lc.join(","));
+  return {a:a,res:'<b>'+o.ke+'・本命數 '+o.main+'・'+(HX[o.hex]||o.hex||"—")+'</b>；先天 '+o.cong+'、後天 '+o.pn}}});
+SEC.push({id:"s7",t:"⑦ 考刻計分・自動定刻",sum:"以填入的六親資料，逐刻比對八刻條文原文中的生肖、人數、先後字樣，計分排名；唯一最高分者自動定刻。",
+ src:"本站方法：純文字比對（條文明載者才計分，未提及者不加不減）。傳統「考刻數推算法」未見可驗證公開文件，未實作。",f:["y","mo","d","h","mi","sex","fa","mom","sp","sib","kid","pf"],
+ b:function(R){var a=[],kk=R.kk,KE=E.get("KE"),r=R.r,I=R.I;
+  S(a,"in","比對資料","父 "+(I.fa||"—")+"、母 "+(I.mom||"—")+"、配偶 "+(I.sp||"—")+"、兄弟姊妹 "+(I.sib||"—")+"、子女 "+(I.kid||"—")+"、先過世 "+(I.pf||"—"));
+  S(a,"rule","計分規則","每一相符項 ＋1；條文明載而不符者 −1；條文未提及者 0");
+  var tb='<table><tr><th>刻</th><th>條文號</th><th>分數</th><th>相符／不符</th></tr>';kk.ev.forEach(function(e,i){tb+='<tr><td>'+KE[i]+'</td><td>'+r.kes[i].n+'</td><td><b>'+e.s+'</b></td><td>'+(e.m.length?'✔ '+esc(e.m.join("、")):'')+(e.c.length?' <span class="miss">✘ '+esc(e.c.join("、"))+'</span>':'')+(!e.m.length&&!e.c.length?'—':'')+'</td></tr>'});
+  S(a,"tab","逐刻分數",tb+'</table>',kk.ev.map(function(e){return e.s}).join(","));
+  S(a,"ord","排名",kk.ord.map(function(i){return KE[i]+"("+kk.ev[i].s+")"}).join(" > "));
+  S(a,"auto","自動定刻規則：最高分 >0 且嚴格高於第二名",kk.auto>=0?"→ <b>"+KE[kk.auto]+"（"+r.kes[kk.auto].n+"）</b>":"無唯一最高分 → 不自動定刻");
+  return {a:a,res:kk.auto>=0?'<b>自動定刻：'+KE[kk.auto]+'（'+r.kes[kk.auto].n+'）</b> '+V(r.kes[kk.auto].n):'<b>尚未定刻</b>（請填六親資料）'}}});
+SEC.push({id:"s8",t:"⑧ 尚無公開可驗證算法（壽元・配偶・子女・父母存亡）",sum:"這四類本站沒有推算公式，只做誠實說明與關鍵字歸類。",src:"—",f:[],
+ b:function(R){var a=[];S(a,"sy","壽元","傳統有以考刻後條文推壽元之說，但未見可驗證的公開推算法；本站僅將已推得條文中含壽數字樣者歸類列出，不推算。");
+  S(a,"sp","配偶","未見公開可驗證的配偶條文推算法；僅在考刻時比對條文明載之配偶生肖。");S(a,"kd","子女","未見公開可驗證的子女條文推算法；僅在考刻時比對條文明載之子女數。");
+  S(a,"pm","父母存亡","未見公開可驗證的父母存亡推算法；僅在考刻時比對條文明載之父母生肖與先後。");return{a:a,res:"不推算、不補造條文。"}}});
+
+function build(){var toc="",h="";SEC.forEach(function(s,i){toc+='<li><a href="#'+s.id+'">'+s.t+'</a><div class="note">'+s.sum+'</div></li>';
+  h+='<details class="sec" id="'+s.id+'"'+(i<2?' open':'')+'><summary>'+s.t+'<span class="dbadge" id="'+s.id+'_db" style="display:none"></span></summary><div class="sb"><p>'+s.sum+'</p><p class="note"><b>出處：</b>'+s.src+'</p>'+
+  (s.f.length?'<details class="sin"><summary>本節輸入（預設＝上方共用輸入 A）</summary><label class="ck"><input type="checkbox" id="'+s.id+'_cu"> 本節另設輸入（只影響本節的 A 欄）</label><div id="'+s.id+'_fw" style="display:none">'+form(s.id+"_",s.f)+'</div></details>':'')+
+  '<div id="'+s.id+'_o"></div></div></details>'});$("toc").innerHTML=toc;$("secs").innerHTML=h}
+function secInp(s,A){if(!s.f.length||!$(s.id+"_cu").checked){fill(s.id+"_",s.f,A);return A}return read(s.id+"_",s.f,A)}
+function stepsHTML(x,y){var h='<ol class="steps">',n=0,mb={};if(y)y.a.forEach(function(s){mb[s.k]=s});
+  var keys=[];x.a.forEach(function(s){keys.push(s.k)});if(y)y.a.forEach(function(s){if(keys.indexOf(s.k)<0)keys.push(s.k)});
+  var ma={};x.a.forEach(function(s){ma[s.k]=s});
+  keys.forEach(function(k){var p=ma[k],q=mb[k],d=y&&(!p||!q||p.c!==q.c);if(d)n++;
+    h+='<li class="'+(d?'diff':'')+'"><b>'+esc((p||q).l)+'</b>'+(d?'<span class="dbadge">不同</span>':'')+(y?'<div class="st"><div class="c"><span class="colh">A</span> '+(p?p.h:'—')+'</div><div class="c b"><span class="colh b">B</span> '+(q?q.h:'—')+'</div></div>':'<div>'+p.h+'</div>')+'</li>'});
+  return {h:h+'</ol>',n:n}}
+function recompute(){if(!E)return;var A=inpA(),cmp=$("cmpon").checked,B=cmp?inpB():null,tot=0,rb=null;
+  try{if(B){rb=run(B)}}catch(e){rb={err:String(e.message||e)}}
+  SEC.forEach(function(s){var o=$(s.id+"_o"),I=secInp(s,A),ra,x,y=null;try{ra=run(I)}catch(e){ra={err:String(e.message||e)}}
+    if(ra.err){o.innerHTML='<p class="miss">A：'+esc(ra.err)+'</p>';return}x=s.b(ra);if(rb&&!rb.err)y=s.b(rb);
+    var st=stepsHTML(x,y);tot+=st.n;var db=$(s.id+"_db");if(y){db.style.display=st.n?"":"none";db.textContent=st.n+" 步不同"}else db.style.display="none";
+    o.innerHTML='<h3>計算步驟</h3>'+st.h+'<div class="res">'+(y?'<div><span class="colh">A</span> '+x.res+'</div><div style="margin-top:4px"><span class="colh b">B</span> '+y.res+'</div>':x.res)+'</div>'+(rb&&rb.err?'<p class="miss">B：'+esc(rb.err)+'</p>':'')});
+  $("cmpsum").innerHTML=B?(rb&&rb.err?'B 輸入有誤：'+esc(rb.err):'比較結果：A 與 B 共 '+tot+' 個計算步驟不同（黃底＋「不同」標示；各節標題旁顯示該節不同步數）。'):"";
+  try{if(E.get("CORR"))E.birthCorr()}catch(e){}}
+function sched(){if(timer)clearTimeout(timer);timer=setTimeout(recompute,60)}
+function init(){GAN=E.get("GAN");ZHI=E.get("ZHI");$("inA").innerHTML=form("A_",ALL);$("inB").innerHTML=form("B_",ALL);fill("A_",ALL,DEFA);fill("B_",ALL,DEFB);build();
+  SEC.forEach(function(s){if(s.f.length)fill(s.id+"_",s.f,DEFA)});
+  document.addEventListener("input",function(e){sched()});document.addEventListener("change",function(e){var t=e.target;if(t&&/_cu$/.test(t.id)){$(t.id.replace(/_cu$/,"_fw")).style.display=t.checked?"":"none"}if(t&&t.id==="cmpon")$("inBw").style.display=t.checked?"":"none";sched()});
+  recompute()}
+var tries=0;function wait(){var w=null;try{w=$("eng").contentWindow}catch(e){}
+  if(w&&w.TBENG){E=w.TBENG;var f=E.full();if(f.st===0&&tries<80){tries++;$("engmsg").innerHTML="條文全文載入中…";return setTimeout(wait,100)}
+    $("engmsg").innerHTML=f.st===1?"計算引擎：與批命頁共用同一程式（index.html）；條文全文 "+f.n+" 條已載入。":'<span class="miss">條文全文載入失敗，暫以內建 1,677 條顯示。</span>';if(!G.ok){G.ok=1;init()}else recompute();
+    if(f.st===0)setTimeout(wait,500);return}
+  if(++tries>150){$("engmsg").innerHTML='<span class="miss">計算引擎載入失敗（請以網站方式開啟，不支援本機檔案直接開啟）。</span>';return}setTimeout(wait,100)}
+wait();
+})();
+</script></body></html>
