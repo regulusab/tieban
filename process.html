@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><meta name="theme-color" content="#8b2f1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="鐵板神數">
 <title>鐵板神數取數論命各技術計算過程大公開</title>
 <style>
 body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:#f7f1e6;color:#2b1d10;font-size:15px;line-height:1.55}
@@ -25,12 +26,15 @@ tr.diff td{background:#fff1b8}.flow{display:flex;flex-wrap:wrap;align-items:cent
 .toc li{margin:4px 0}.toc a{color:#7a3b12;font-weight:bold}.colh{font-size:12px;font-weight:bold;color:#fff;background:#8a5a2b;border-radius:4px;padding:0 6px;display:inline-block}
 .colh.b{background:#2f6b8a}#cmpsum{font-weight:bold;color:#b5462f}
 .sin{margin:6px 0;background:#faf5ec;border-radius:8px;padding:4px 8px}.sin summary{font-size:13px;color:#7a3b12;cursor:pointer}
+.pxb{padding:8px 14px;border-radius:8px;border:1px solid #8a5a2b;background:#fff;color:#8a5a2b;font-weight:bold;font-size:15px;cursor:pointer;margin:4px 4px 4px 0}
+.rep .card{box-shadow:none}
 </style></head><body><div class="wrap">
 <h1>鐵板神數取數論命各技術計算過程大公開</h1>
-<div class="note">本頁逐步公開本站每一種取數、論命技術的計算過程。所有結果直接呼叫批命頁（index.html）同一份程式碼計算，與批命頁結果一致；條文原文照錄，不增改一字。</div>
+<div class="note">本頁逐步公開本站每一種取數、論命技術的計算過程。所有結果與批命頁（index.html）共用同一份演算法程式（core.js）計算，與批命頁結果一致；條文原文照錄，不增改一字。</div>
 <a class="btnl" href="index.html">← 回到鐵板神數批命（論命頁）</a>
 <div id="engmsg" class="note">計算引擎載入中…</div>
 
+<div class="card" id="pexp"><h2>匯出計算過程</h2><p class="note">依目前輸入（含 A／B 比較模式）匯出全部步驟。PDF 需連網載入元件。</p><button type="button" id="pwd" class="pxb">匯出 Word</button> <button type="button" id="ppd" class="pxb">匯出 PDF</button><div id="pexpmsg" class="note"></div></div>
 <div class="card"><h2>共用輸入（A）</h2><div id="inA"></div>
 <label class="ck" style="font-size:15px;margin-top:10px"><input type="checkbox" id="cmpon"> <b>比較模式</b>：另設一組輸入（B），兩組並排、標示差異</label>
 <div id="inBw" style="display:none;margin-top:8px;border-top:2px solid #2f6b8a;padding-top:6px"><h2 style="color:#2f6b8a">比較輸入（B）</h2><div id="inB"></div></div>
@@ -43,8 +47,14 @@ tr.diff td{background:#fff1b8}.flow{display:flex;flex-wrap:wrap;align-items:cent
 <ol class="toc" id="toc"></ol></div>
 <div id="secs"></div>
 <a class="btnl" href="index.html">← 回到鐵板神數批命（論命頁）</a>
-<iframe id="eng" src="index.html" style="display:none" title="engine"></iframe>
+<form id="engf" style="display:none" aria-hidden="true" onsubmit="return false"><input id="y" type="text"><input id="mo" type="text"><input id="d" type="text"><input id="h" type="text"><input id="mi" type="text"><input id="sex" type="text"><input id="reg" type="text"><input id="utc" type="text"><input id="lon" type="text"><input id="fa" type="text"><input id="mom" type="text"><input id="sp" type="text"><input id="sib" type="text"><input id="kid" type="text"><input id="pf" type="text"><input id="zi" type="checkbox"><input id="tst" type="checkbox"></form>
 </div>
+<script src="core.js"></script>
+<script src="export.js"></script>
+<script>
+var FULL={st:0,n:0};TBENG.full=function(){return FULL};
+(function(){var x=new XMLHttpRequest();x.open("GET","tiaowen.json",true);x.onload=function(){try{var o=JSON.parse(x.responseText),n=0,k,p;for(k in o){p=String(o[k]).split("|");n++;if(!TEXTS[k]||!TEXTS[k].t)TEXTS[k]={t:p[0],age:p[1]||""}}FULL.st=1;FULL.n=n}catch(e){FULL.st=-1}};x.onerror=function(){FULL.st=-1};x.send()})();
+</script>
 <script>
 (function(){
 var E=null,G={},SEC=[],CUSTOM={},timer=null;
@@ -63,7 +73,7 @@ var F={
  utc:{l:"UTC 時差（其他地區）",t:"number"},lon:{l:"經度（東經）",t:"number"},tst:{l:"使用真太陽時",c:1},
  fa:{l:"父親生肖",z:1},mom:{l:"母親生肖",z:1},sp:{l:"配偶生肖",z:1},sib:{l:"兄弟姊妹人數（含本人）",t:"number"},kid:{l:"子女人數",t:"number"},
  pf:{l:"父母何者先過世",h:function(p){return '<select id="'+p+'pf"><option value="">（不填）</option><option value="父">父親先</option><option value="母">母親先</option></select>'}},
- ke14:{l:"十四法刻別",h:function(p){var s='<select id="'+p+'ke14"><option value="">自動（原程式規則）</option><option value="初刻">初刻</option><option value="正刻">正刻</option>';var n=["一","二","三","四","五","六","七","八"];for(var i=0;i<8;i++)s+='<option value="k'+i+'">'+n[i]+'刻（本站慣例→'+(i<4?"初刻":"正刻")+'）</option>';return s+'</select>'}}
+ ke14:{l:"十四法刻別",h:function(p){var s='<select id="'+p+'ke14"><option value="">自動（原程式規則）</option><option value="初刻">初刻法</option><option value="正刻">正刻法</option>';var n=["一","二","三","四","五","六","七","八"];for(var i=0;i<8;i++)s+='<option value="k'+i+'">'+n[i]+'刻（本站慣例→'+(i<4?"初刻法":"正刻法")+'）</option>';return s+'</select>'}}
 };
 var ALL=["cal","y","mo","d","h","mi","ly","lm","ld","lleap","sex","zi","reg","utc","lon","tst","ke14","fa","mom","sp","sib","kid","pf"];
 var DEFA={cal:"S",y:1962,mo:8,d:8,h:0,mi:10,ly:1962,lm:7,ld:9,lleap:false,sex:"男",zi:false,reg:"tw",utc:8,lon:121.5,tst:false,ke14:"",fa:"",mom:"",sp:"",sib:"",kid:"",pf:""};
@@ -154,8 +164,8 @@ SEC.push({id:"s5",t:"⑤ 太玄數八刻法（起卦・基本數・八刻條文�
   var tb='<table><tr><th>刻</th><th>算式</th><th>條文</th></tr>';r.kes.forEach(function(k,i){var raw=r.base+1327*i;tb+='<tr><td>'+KE[i]+'</td><td>'+r.base+'＋1327×'+i+'＝'+raw+(raw>13000?'−12000':'')+'＝<b>'+k.n+'</b></td><td>'+V(k.n)+'</td></tr>'});
   S(a,"kes","八刻條文號（超過 13000 減 12000）",tb+'</table>',r.kes.map(function(k){return k.n+VT(k.n)}).join("|"));
   return {a:a,res:'<b>'+HEX[r.up][r.lo]+'・基本數 '+r.base+'</b>；八刻：'+r.kes.map(function(k){return k.n}).join("、")}}});
-SEC.push({id:"s6",t:"⑥ 十四法（一生批命：本命・流年）",sum:"先天命數→五音→日命・時運→初／正刻→十二辟卦→本命數→本命條文；後天命數→流年四聲・標記・字母→流年條文。",
- src:'逐步移植自公開程式 <a href="https://github.com/xaminxan/tiebanshenshu" target="_blank" rel="noopener">xaminxan/tiebanshenshu</a>（main.py，14-1～14-14 數表）。「一～四刻→初刻、五～八刻→正刻」為<b>本站慣例</b>（取時辰前一小時為初、後一小時為正），原程式本身以「陰陽男女＋日命時運和」規則自動判定。',f:["y","mo","d","h","mi","sex","ke14"],
+SEC.push({id:"s6",t:"⑥ 十四法（一生批命：本命・流年）",sum:"先天命數→五音→日命・時運→初刻法／正刻法→十二辟卦→本命數→本命條文；後天命數→流年四聲・標記・字母→流年條文。",
+ src:'逐步移植自公開程式 <a href="https://github.com/xaminxan/tiebanshenshu" target="_blank" rel="noopener">xaminxan/tiebanshenshu</a>（main.py，14-1～14-14 數表）。「一～四刻→初刻法、五～八刻→正刻法」為<b>本站慣例</b>（取時辰前一小時為初、後一小時為正），原程式本身以「陰陽男女＋日命時運和」規則自動判定。',f:["y","mo","d","h","mi","sex","ke14"],
  b:function(R){var a=[],o=R.o,T=E.get("TB14"),HX=E.get("TB14HEX");if(!o){S(a,"x","結果","無法推算（日期超出範圍）");return{a:a,res:"—"}}
   var mI=o.L.m+(o.L.leap?1:0);if(mI>12)mI=1;var tZ=o.B.pillars[3].charAt(1);
   S(a,"lm","農曆月（14-1 月數）",(o.L.leap?"閏":"")+o.L.m+"月"+(o.L.leap?"（閏月按下月）":"")+" → 月數 "+(T.t1[String(mI)]||mI));
@@ -164,13 +174,13 @@ SEC.push({id:"s6",t:"⑥ 十四法（一生批命：本命・流年）",sum:"先
   var gg=["甲己","乙庚","丙辛","丁壬","戊癸"][GAN.indexOf(o.B.pillars[0].charAt(0))%5];S(a,"tone","五音（14-3：先天命數×年干組 "+gg+"）",o.tone.replace("宫","宮")+" → 五音數 "+o.toneN+"（14-4）");
   S(a,"dl","日命（14-5：日柱納音×求測時干）","日柱 "+o.B.pillars[2]+"（"+E.nayin(o.B.pillars[2])+"）× 時干 "+o.Q.pillars[3].charAt(0)+" → "+o.dayLife);
   S(a,"tl","時運（14-6：時柱納音）","時柱 "+o.Q.pillars[3]+"（"+E.nayin(o.Q.pillars[3])+"）→ "+o.timeLuck+"（求測時間預設＝出生時刻）");
-  var sum=o.dayLife+o.timeLuck;S(a,"rule","初／正刻規則（原程式）",o.grp.replace(/阳/g,"陽").replace(/阴/g,"陰")+"，日命＋時運＝"+sum+"（"+(sum>6?">6":"≤6")+"）→ 自動 <b>"+o.keAuto+"</b>");
-  var sel=R.I.ke14||"";S(a,"ke","本次採用刻別",(sel===""?"自動":/^k/.test(sel)?["一","二","三","四","五","六","七","八"][+sel.charAt(1)]+"刻 → 本站慣例 ":"手動 ")+"<b>"+o.ke+"</b>");
+  var sum=o.dayLife+o.timeLuck;S(a,"rule","初刻法／正刻法規則（原程式）",o.grp.replace(/阳/g,"陽").replace(/阴/g,"陰")+"，日命＋時運＝"+sum+"（"+(sum>6?">6":"≤6")+"）→ 自動 <b>"+keL(o.keAuto)+"</b>");
+  var sel=R.I.ke14||"";S(a,"ke","本次採用刻別",(sel===""?"自動":/^k/.test(sel)?["一","二","三","四","五","六","七","八"][+sel.charAt(1)]+"刻 → 本站慣例 ":"手動 ")+"<b>"+keL(o.ke)+"</b>");
   S(a,"main","本命數＝(五音數×5＋日命＋時運"+(sum<=6?"－1":"－6")+")×30＋農曆日",o.mainF+" ＝ <b>"+o.main+"</b>");
-  S(a,"hex","十二辟卦（14-9：刻別＋本命數）",o.ke+"｜"+o.main+" → <b>"+(HX[o.hex]||o.hex||"（表無此數）")+"</b>");
+  S(a,"hex","十二辟卦（14-9：刻別＋本命數）",keL(o.ke)+"｜"+o.main+" → <b>"+(HX[o.hex]||o.hex||"（表無此數）")+"</b>");
   var cats=[["性格","性情"],["才能前程","事業・前程"],["财运","財祿"],["兄弟个数","六親・兄弟"]],tb='<table><tr><th>類別</th><th>算式</th><th>條文</th></tr>',ct=[];
   if(o.tbl){cats.forEach(function(c){(o.tbl.offsets[c[0]]||[]).forEach(function(off){var n=o.tbl.base+o.tbl.seq+off;ct.push(n+VT(n));tb+='<tr><td>'+c[1]+'</td><td>'+o.tbl.base+'＋'+o.tbl.seq+'＋'+off+'＝<b>'+n+'</b></td><td>'+V(n)+'</td></tr>'})});
-    S(a,"tbl","本命條文（14-10：辟卦｜刻別｜先天命數 → 基數＋序數＋各類加數）",(HX[o.hex]||o.hex)+"｜"+o.ke+"｜"+o.cong+" → 基數 "+o.tbl.base+"、序數 "+o.tbl.seq+tb+"</table>",ct.join("|"))}
+    S(a,"tbl","本命條文（14-10：辟卦｜刻別｜先天命數 → 基數＋序數＋各類加數）",(HX[o.hex]||o.hex)+"｜"+keL(o.ke)+"｜"+o.cong+" → 基數 "+o.tbl.base+"、序數 "+o.tbl.seq+tb+"</table>",ct.join("|"))}
   else S(a,"tbl","本命條文（14-10）",'<span class="miss">表中無此組合，原資料未收錄，不補造</span>');
   S(a,"pn","後天命數＝(先天命數＋本命數) mod 8（0 作 8）","("+o.cong+"＋"+o.main+") mod 8 ＝ "+o.pn);
   var yZ=o.B.pillars[0].charAt(1),yG=o.B.pillars[0].charAt(0),bg="寅午戌";if("申子辰".indexOf(yZ)>=0)bg="申子辰";else if("巳酉丑".indexOf(yZ)>=0)bg="巳酉丑";else if("亥卯未".indexOf(yZ)>=0)bg="亥卯未";
@@ -178,7 +188,7 @@ SEC.push({id:"s6",t:"⑥ 十四法（一生批命：本命・流年）",sum:"先
   var lt='<table><tr><th>虛歲</th><th>年</th><th>干支</th><th>四聲</th><th>標記</th><th>字母</th><th>條文號</th><th>條文</th></tr>',lc=[];
   o.ln.forEach(function(x){lc.push(x.age+":"+(x.n||"")+"/"+(x.n2||""));lt+='<tr><td>'+x.age+'</td><td>'+x.year+'</td><td>'+x.gz+'</td><td>'+x.snd+'</td><td>'+x.mk+'</td><td>'+x.let_+'</td><td>'+(x.n?x.f+'＝'+x.n+(x.n2?'<br>校正 '+x.f2+'＝'+x.n2:''):'—')+'</td><td>'+(x.n?V(x.n):'')+(x.n2?'<br>'+V(x.n2):'')+'</td></tr>'});
   S(a,"ln","流年條文（每歲：干支→四聲（14-11）＋標記（14-12，後天命數 "+o.pn+"）→ 字母（14-13，刻別＋奇偶）→ 基數＋加數（14-14）；校正數依原程式規則）",'<details><summary>展開 108 歲流年計算表</summary>'+lt+'</table></details>',lc.join(","));
-  return {a:a,res:'<b>'+o.ke+'・本命數 '+o.main+'・'+(HX[o.hex]||o.hex||"—")+'</b>；先天 '+o.cong+'、後天 '+o.pn}}});
+  return {a:a,res:'<b>'+keL(o.ke)+'・本命數 '+o.main+'・'+(HX[o.hex]||o.hex||"—")+'</b>；先天 '+o.cong+'、後天 '+o.pn}}});
 SEC.push({id:"s7",t:"⑦ 考刻計分・自動定刻",sum:"以填入的六親資料，逐刻比對八刻條文原文中的生肖、人數、先後字樣，計分排名；唯一最高分者自動定刻。",
  src:"本站方法：純文字比對（條文明載者才計分，未提及者不加不減）。傳統「考刻數推算法」未見可驗證公開文件，未實作。",f:["y","mo","d","h","mi","sex","fa","mom","sp","sib","kid","pf"],
  b:function(R){var a=[],kk=R.kk,KE=E.get("KE"),r=R.r,I=R.I;
@@ -218,11 +228,40 @@ function init(){GAN=E.get("GAN");ZHI=E.get("ZHI");$("inA").innerHTML=form("A_",A
   SEC.forEach(function(s){if(s.f.length)fill(s.id+"_",s.f,DEFA)});
   document.addEventListener("input",function(e){sched()});document.addEventListener("change",function(e){var t=e.target;if(t&&/_cu$/.test(t.id)){$(t.id.replace(/_cu$/,"_fw")).style.display=t.checked?"":"none"}if(t&&t.id==="cmpon")$("inBw").style.display=t.checked?"":"none";sched()});
   recompute()}
-var tries=0;function wait(){var w=null;try{w=$("eng").contentWindow}catch(e){}
-  if(w&&w.TBENG){E=w.TBENG;var f=E.full();if(f.st===0&&tries<80){tries++;$("engmsg").innerHTML="條文全文載入中…";return setTimeout(wait,100)}
-    $("engmsg").innerHTML=f.st===1?"計算引擎：與批命頁共用同一程式（index.html）；條文全文 "+f.n+" 條已載入。":'<span class="miss">條文全文載入失敗，暫以內建 1,677 條顯示。</span>';if(!G.ok){G.ok=1;init()}else recompute();
-    if(f.st===0)setTimeout(wait,500);return}
-  if(++tries>150){$("engmsg").innerHTML='<span class="miss">計算引擎載入失敗（請以網站方式開啟，不支援本機檔案直接開啟）。</span>';return}setTimeout(wait,100)}
+var tries=0;function wait(){E=window.TBENG;var f=E.full();if(f.st===0&&tries<80){tries++;$("engmsg").innerHTML="條文全文載入中…";return setTimeout(wait,100)}
+    $("engmsg").innerHTML=f.st===1?"計算引擎：與批命頁共用同一程式（core.js）；條文全文 "+f.n+" 條已載入。":'<span class="miss">條文全文載入失敗，暫以內建 1,677 條顯示。</span>';if(!G.ok){G.ok=1;init()}else recompute();
+    if(f.st===0)setTimeout(wait,500)}
 wait();
 })();
-</script></body></html>
+</script><script>
+(function(){
+function g(i){return document.getElementById(i)}
+function h(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function msg(x){g("pexpmsg").innerHTML=x}
+function inpTable(id,tag){var w=g(id),rows=[];if(!w)return "";var ds=w.querySelectorAll(".grid>div");for(var i=0;i<ds.length;i++){var l=ds[i].querySelector("label"),e=ds[i].querySelector("input,select");if(!l||!e)continue;if(ds[i].offsetParent===null&&e.type!=="hidden")continue;var v=e.tagName==="SELECT"?(e.options[e.selectedIndex]||{}).text:e.value;rows.push('<tr><th>'+h(l.textContent)+'</th><td>'+h(v||"")+'</td></tr>')}
+  var cks=w.querySelectorAll("label.ck");for(i=0;i<cks.length;i++){var c=cks[i].querySelector("input");if(c&&c.type==="checkbox"&&cks[i].offsetParent!==null)rows.push('<tr><th>'+h(cks[i].textContent.replace(/^\s+/,""))+'</th><td>'+(c.checked?"是":"否")+'</td></tr>')}
+  return '<h3>'+tag+'</h3><table>'+rows.join("")+'</table>'}
+function stamp(){return new Date(Date.now()+480*60000).toISOString().slice(0,16).replace("T"," ")+"（台北時間）"}
+function rep(){var R=document.createElement("div");R.className="rep";var cmp=g("cmpon")&&g("cmpon").checked;
+  var H='<div class="card"><h1>鐵板神數取數論命各技術計算過程大公開</h1><p class="note">計算步驟報告　產生時間：'+stamp()+'</p><p>比較模式：'+(cmp?'開啟（A／B 兩組輸入，不同步驟以黃底＋「不同」標示）':'關閉')+'</p>'+(g("cmpsum")&&g("cmpsum").textContent?'<p>'+h(g("cmpsum").textContent)+'</p>':'')+inpTable("inA","共用輸入（A）")+(cmp?inpTable("inB","比較輸入（B）"):"")+'</div>';
+  R.innerHTML=H;var sc=g("secs").cloneNode(true);sc.id="secs_rep";
+  var ss=sc.querySelectorAll("details.sec");for(var i=0;i<ss.length;i++){var cu=ss[i].querySelector('input[id$="_cu"]');var orig=g(ss[i].id+"_cu");var sin=ss[i].querySelector("details.sin");if(sin){if(orig&&orig.checked){var t=document.createElement("p");t.className="note";t.textContent="（本節另設輸入）";sin.parentNode.replaceChild(t,sin)}else sin.parentNode.removeChild(sin)}}
+  var ds=sc.querySelectorAll("details");for(i=0;i<ds.length;i++)ds[i].setAttribute("open","");
+  var rm=sc.querySelectorAll("button,select,input,label.ck");for(i=rm.length-1;i>=0;i--)if(rm[i].parentNode)rm[i].parentNode.removeChild(rm[i]);
+  var ids=sc.querySelectorAll("[id]");for(i=0;i<ids.length;i++)ids[i].removeAttribute("id");
+  var bs=sc.querySelectorAll(".dbadge");for(i=0;i<bs.length;i++){if(bs[i].style.display==="none")bs[i].parentNode.removeChild(bs[i]);else bs[i].textContent="（"+bs[i].textContent+"）"}
+  for(var c=sc.firstChild;c;){var n=c.nextSibling;R.appendChild(c);c=n}
+  var ex=document.createElement("div");ex.className="card";ex.innerHTML='<p class="note">本報告供傳統文化研究之用。條文原文照錄，未作增補。</p>';R.appendChild(ex);return R}
+function nm(ext){var p=function(n){n=+n;return(n<10?"0":"")+n},y=g("A_y")?g("A_y").value:"",mo=g("A_mo")?g("A_mo").value:"",d=g("A_d")?g("A_d").value:"";return "鐵板神數計算過程_"+y+"-"+p(mo)+"-"+p(d)+(g("cmpon")&&g("cmpon").checked?"_AB比較":"")+"."+ext}
+function share(b,name){window.__lastExport={name:name,blob:b};var f=null;try{f=new File([b],name,{type:b.type})}catch(e){}var can=false;try{can=!!(f&&navigator.canShare&&navigator.canShare({files:[f]})&&navigator.share)}catch(e){}
+  msg('檔案已備妥（'+(b.size/1024).toFixed(0)+' KB）。'+(can?'<button type="button" id="pexsh" class="pxb">分享檔案</button> ':'')+'<a download="'+h(name)+'" href="'+URL.createObjectURL(b)+'" target="_blank" rel="noopener">下載／開啟 '+h(name)+'</a>');
+  if(can){g("pexsh").onclick=function(){navigator.share({files:[f],title:name}).catch(function(){})}}}
+function word(){try{msg("產生 Word 中…");var R=rep();document.body.appendChild(R);R.style.position="absolute";R.style.left="-9999px";var body;try{body=docxBody(R)}finally{R.parentNode.removeChild(R)}share(docxPack(body),nm("docx"))}catch(e){msg('<span class="miss">Word 匯出失敗：'+h(e.message||e)+'</span>')}}
+function pdf(){msg("正在載入 PDF 元件並產生（約 10–40 秒）…");var R;try{R=rep()}catch(e){msg('<span class="miss">PDF 匯出失敗：'+h(e.message||e)+'</span>');return}
+  pdfFrom(R,{title:"鐵板神數計算過程報告",subject:(g("cmpon")&&g("cmpon").checked?"A/B 比較模式":"單一輸入"),creator:"tieban"},function(i,n){msg("產生 PDF 中… "+i+"/"+n)},function(b){share(b,nm("pdf"))},function(e){msg('<span class="miss">PDF 匯出失敗：'+h(e.message||e)+'（PDF 需連網載入元件；離線時請改用 Word）</span>')})}
+document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.id==="pwd")word();else if(t.id==="ppd")pdf()});
+window.PEXP={word:word,pdf:pdf,rep:rep};
+})();
+</script>
+<script src="ui.js"></script>
+</body></html>
