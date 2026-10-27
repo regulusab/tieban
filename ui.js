@@ -43,6 +43,12 @@ function selftest(){var E=window.TBENG;if(!E){return}var ids=["y","mo","d","h","
     for(var f in x){tot++;if(JSON.stringify(x[f])===JSON.stringify(got[f]))pass++;else bad.push(f)}
     rows.push('<tr><td>'+n+'</td><td class="'+(bad.length?'ng">✗ '+bad.join("、"):'ok">✓')+'</td></tr>')}}catch(e){rows.push('<tr><td colspan="2" class="ng">錯誤：'+String(e.message||e)+'</td></tr>');tot++}
   finally{for(i=0;i<ids.length;i++)$(ids[i]).value=sv[ids[i]];$("zi").checked=svz;$("tst").checked=svt;try{E.birthCorr()}catch(e){}}
+  try{var LKx=window.TBLK,LBx=window.TBLAB,v11=[],chk=function(nm,ok){tot++;if(ok)pass++;else v11.push(nm)};
+    if(LKx){chk("密碼轉碼",LKx.decode("庚甲戊丙").v==="4132"&&LKx.decode("甲ヒ").v==="11"&&LKx.encode("4132").v==="庚甲戊丙")}
+    if(LBx){chk("A公式直線",LBx.computeA("father-gz",{value:"0"}).ids[0]==="9003"&&LBx.computeA("parent-death-son",{age:"19"}).ids[0]==="9799")}
+    if(window.RuleEngines){var sm=RuleEngines.registry["B8-01"].sample;chk("C規則引擎",RuleEngines.run("B8-01",sm,null).numbers[4].value===2253)}
+    if(window.BaguaFlow){var bc=BaguaFlow.getConfig(),bv={};bc.fields.forEach(function(f){bv[f.key]=f.example});var br=BaguaFlow.run(bv);chk("C八卦滾",br.numbers.length===48&&br.numbers[0].value===5349)}
+    if(LKx||LBx)rows.push('<tr><td>v11 研究工具</td><td class="'+(v11.length?'ng">✗ '+v11.join("、"):'ok">✓')+'</td></tr>')}catch(e){tot++;rows.push('<tr><td colspan="2" class="ng">v11 錯誤：'+String(e.message||e)+'</td></tr>')}
   var ok=pass===tot,box=document.createElement("div");box.id="selftest";box.setAttribute("data-result",ok?"pass":"fail");
   box.innerHTML='<b>自我檢測（?selftest=1）</b>：<span class="'+(ok?'ok">全部通過':'ng">有誤')+'</span>（'+pass+'／'+tot+' 項；比對 v10 改版前之標準答案）<table>'+rows.join("")+'</table>';
   var u=document.getElementById("uibar");u.parentNode.insertBefore(box,u.nextSibling)}
