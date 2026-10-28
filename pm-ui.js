@@ -19,13 +19,14 @@ function mount(el){
  h+='<div class="pm-g"><label>歲 由<input id="pm-f" type="number" style="width:4em" value="1"></label><label>至<input id="pm-t" type="number" style="width:4em" value="90"></label></div>';
  h+='<label style="font-size:14px">家庭與事件（一行一組，如「父虎 母雞」「妻己酉」「1993 婚、生長男」「父鼠 2003歿」）</label><textarea id="pm-fx">'+esc(PRE.facts)+'</textarea>';
  h+='<div><button type="button" class="pm-b" id="pm-pre">帶入書例 壬寅乾造（總錄第七節）</button><button type="button" class="pm-b" id="pm-run">起批</button></div><div id="pm-luck"></div><div id="pm-out"></div>';
- h+='<h4>批書</h4><div><label>版式 '+sel("pm-ver",["研究版","客人版"],"研究版")+'</label> <button type="button" class="pm-b" id="pm-cp">複製</button><button type="button" class="pm-b" id="pm-dl">下載文字檔</button></div><textarea id="pm-book" placeholder="起批後生成，可自行刪改"></textarea></div>';
+ h+='<h4>批書</h4><div><label>版式 '+sel("pm-ver",["研究版","客人版"],"研究版")+'</label> <button type="button" class="pm-b" id="pm-cp">複製</button><button type="button" class="pm-b" id="pm-dl">下載文字檔</button><button type="button" class="pm-b" id="pm-pdf">下載 PDF</button><button type="button" class="pm-b" id="pm-docx">下載 Word</button> <span id="pm-xmsg" style="font-size:13px"></span></div><textarea id="pm-book" placeholder="起批後生成，可自行刪改"></textarea></div>';
  el.innerHTML=h;
  D.getElementById("pm-mech").onclick=function(){need(function(){var m=TB.mechXiJi(pil().join(" "));m.xi=A(m.xi);m.ji=A(m.ji);EL.forEach(function(e,i){D.getElementById("pm-x"+i).value=m.xi.indexOf(e)>=0?"喜":(m.ji.indexOf(e)>=0?"忌":"平")});D.getElementById("pm-mech").textContent="機械起手（"+(m.strong?"身強":"身弱")+"，喜"+m.xi.join("")+"）"})};
  D.getElementById("pm-pre").onclick=function(){D.getElementById("pm-sex").value=PRE.sex;PRE.p.forEach(function(v,i){D.getElementById("pm-p"+i).value=v});D.getElementById("pm-by").value=PRE.birth;D.getElementById("pm-st").value=PRE.start;D.getElementById("pm-fx").value=PRE.facts};
  D.getElementById("pm-run").onclick=function(){D.getElementById("pm-out").textContent="載入中…";need(run)};
  D.getElementById("pm-ver").onchange=book;
  D.getElementById("pm-cp").onclick=function(){var t=D.getElementById("pm-book");t.select();try{D.execCommand("copy")}catch(e){}};
+ D.getElementById("pm-pdf").onclick=function(){xdl("pdf")};D.getElementById("pm-docx").onclick=function(){xdl("docx")};
  D.getElementById("pm-dl").onclick=function(){var b=new Blob([D.getElementById("pm-book").value],{type:"text/plain;charset=utf-8"}),a=D.createElement("a");a.href=URL.createObjectURL(b);a.download="批命_"+pil().join("")+"_"+D.getElementById("pm-ver").value+".txt";D.body.appendChild(a);a.click();D.body.removeChild(a)};
 }
 function pil(){var r=[],i;for(i=0;i<4;i++)r.push(D.getElementById("pm-p"+i).value.replace(/\s/g,""));return r}
@@ -57,5 +58,14 @@ function run(){
 function book(){if(!LAST)return;var t=LAST.full,src="\n\n——\n來源待核（參考外站：Claude 研究站／批命工作表）；實驗流程，非定論。";
  if(D.getElementById("pm-ver").value==="客人版")t=t.split("\n").map(function(l){return l.replace(/^\d+\u3000/,"").replace(/〔[^〕]*〕/g,"").replace(/^(\s*\d+ 歲 \d+ \S+：)[^—]*——\d+/,"$1")}).join("\n");
  D.getElementById("pm-book").value=t+src}
-window.PMUI={mount:mount,need:need,compute:compute};
+
+var FONTP=null,XLD=0;
+function needX(cb,er){if(window.TBX)return cb();var s=D.createElement("script");s.src="tbx.js";s.onload=cb;s.onerror=function(){er("tbx.js 載入失敗")};D.head.appendChild(s)}
+function getFont(){if(!FONTP)FONTP=new Promise(function(ok,no){var x=new XMLHttpRequest();x.open("GET","fonts/tb-serif-tc.woff");x.responseType="arraybuffer";x.onload=function(){if(x.status!==200&&x.status!==0){no(new Error("字型 HTTP "+x.status));return}TBX.loadFont(x.response).then(ok,no)};x.onerror=function(){no(new Error("字型載入失敗"))};x.send()});FONTP["catch"](function(){FONTP=null});return FONTP}
+function raster(cp){try{var ch=String.fromCharCode(cp),N=96,font=N+'px "Noto Serif TC","Noto Serif CJK TC","PMingLiU","Songti TC",serif',c=D.createElement("canvas"),g=c.getContext("2d");g.font=font;var adv=Math.max(0.25,Math.min(1.6,g.measureText(ch).width/N)),W=Math.ceil(adv*N),H=Math.ceil(1.2*N);c.width=W;c.height=H;g=c.getContext("2d");g.font=font;g.fillStyle="#000";g.textBaseline="alphabetic";g.fillText(ch,0,N);var px=g.getImageData(0,0,W,H).data,rb=Math.ceil(W/8),bits=new Uint8Array(rb*H),ink=0,x,y;for(y=0;y<H;y++)for(x=0;x<W;x++)if(px[(y*W+x)*4+3]>110){bits[y*rb+(x>>3)]|=0x80>>(x&7);ink++}return ink?{w:W,h:H,bits:bits,adv:adv}:null}catch(e){return null}}
+function sheetOf(mode){var o=LAST.o,d=new Date(),sh=TBX.sheet(TB,LAST.R.rd,TBD.T,{name:"",sex:o.sex,pillars:o.p,birth:o.birth,suifa:o.suifa,today:d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(),bornText:"",mech:!!o.mech,anno:{total:"",luck:{}}},{mode:mode,draft:[]});sh.notes.push("來源待核（參考外站：Claude 研究站／批命工作表）；實驗流程，非定論。");return sh}
+function makeX(kind,mode){return new Promise(function(ok,no){if(!LAST){no(new Error("請先起批"));return}needX(function(){var sh=sheetOf(mode);if(kind==="pdf")getFont().then(function(F){return TBX.pdf(sh,F,{raster:raster})}).then(function(r){ok({bytes:r.bytes,pages:r.pages,missing:r.missing,name:TBX.fileName(sh,"pdf")})},no);else TBX.docx(sh,{}).then(function(b){ok({bytes:b,name:TBX.fileName(sh,"docx")})},no)},function(m){no(new Error(m))})})}
+function xdl(kind){var m=D.getElementById("pm-xmsg"),mode=D.getElementById("pm-ver").value==="客人版"?"client":"research";if(XLD)return;XLD=1;m.textContent=kind==="pdf"?"載入字型、排版中…":"製作 Word 檔…";
+ makeX(kind,mode).then(function(r){XLD=0;var b=new Blob([r.bytes],{type:kind==="pdf"?"application/pdf":"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}),a=D.createElement("a");a.href=URL.createObjectURL(b);a.download=r.name;D.body.appendChild(a);a.click();D.body.removeChild(a);m.textContent="已下載 "+r.name+"（"+Math.max(1,Math.round(r.bytes.length/1024))+" KB"+(r.pages?"，"+r.pages+" 頁":"")+(r.missing&&r.missing.length?"；字型無「"+r.missing.join("")+"」，以本機字型補印":"")+"）"},function(e){XLD=0;m.textContent="匯出未成："+(e&&e.message||e)})}
+window.PMUI={mount:mount,need:need,compute:compute,makeX:makeX};
 })();
