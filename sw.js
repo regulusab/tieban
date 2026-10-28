@@ -1,6 +1,6 @@
 /* 鐵板神數 service worker：版本號變更即更新快取 */
-var VER="tieban-v11-1";
-var CORE=["./","index.html","process.html","core.js","export.js","ui.js","tiaowen.json","tiaowen_tyg.json","lookup.js","lab.js","lab-ui.js","kuji.json","lab-cat.json","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png"];
+var VER="tieban-v12-1";
+var CORE=["./","index.html","process.html","core.js","export.js","ui.js","tiaowen.json","tiaowen_tyg.json","lookup.js","lab.js","lab-ui.js","kuji.json","lab-cat.json","pm-ui.js","tbeng.js","research9.html","r9.js","claude9.json","tbx.js","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png"];
 var CDN=["https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js","https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"];
 self.addEventListener("install",function(e){e.waitUntil(caches.open(VER).then(function(c){
   return c.addAll(CORE).then(function(){return Promise.all(CDN.map(function(u){return fetch(u,{mode:"cors"}).then(function(r){if(r.ok)return c.put(u,r)}).catch(function(){})}))})}).then(function(){return self.skipWaiting()}))});

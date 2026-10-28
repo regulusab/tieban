@@ -51,7 +51,12 @@ function selftest(){var E=window.TBENG;if(!E){return}var ids=["y","mo","d","h","
     if(LKx||LBx)rows.push('<tr><td>v11 研究工具</td><td class="'+(v11.length?'ng">✗ '+v11.join("、"):'ok">✓')+'</td></tr>')}catch(e){tot++;rows.push('<tr><td colspan="2" class="ng">v11 錯誤：'+String(e.message||e)+'</td></tr>')}
   var ok=pass===tot,box=document.createElement("div");box.id="selftest";box.setAttribute("data-result",ok?"pass":"fail");
   box.innerHTML='<b>自我檢測（?selftest=1）</b>：<span class="'+(ok?'ok">全部通過':'ng">有誤')+'</span>（'+pass+'／'+tot+' 項；比對 v10 改版前之標準答案）<table>'+rows.join("")+'</table>';
-  var u=document.getElementById("uibar");u.parentNode.insertBefore(box,u.nextSibling)}
+  var u=document.getElementById("uibar");u.parentNode.insertBefore(box,u.nextSibling);
+  if(window.PMUI){var tb=box.querySelector("table"),tr=document.createElement("tr");tr.innerHTML='<td>v12 批命工作表</td><td>載入中…</td>';tb.appendChild(tr);
+   PMUI.need(function(){var bad=[],R,G=[9354,9103,10055,9883,10237,9082,12093,10537];try{R=PMUI.compute({sex:"乾",p:["壬寅","丁未","戊寅","壬子"],birth:1962,start:1,mech:1,facts:"父虎 母雞\n兄弟3人\n妻己酉\n1993 婚、生長男"});
+    var ns=R.lq.map(function(e){return e.n});G.forEach(function(g){if(ns.indexOf(g)<0)bad.push(g)});if(String(R.ch.xj.xi)!=="火土")bad.push("機械喜忌")}catch(e){bad.push(String(e.message||e))}
+    tot+=2;if(!bad.length)pass+=2;tr.innerHTML='<td>v12 批命工作表</td><td class="'+(bad.length?'ng">✗ '+bad.join("、"):'ok">✓')+'</td></tr>';
+    var ok2=pass===tot;box.setAttribute("data-result",ok2?"pass":"fail");var sp=box.querySelector("span");sp.className=ok2?"ok":"ng";sp.textContent=ok2?"全部通過":"有誤";sp.nextSibling.nodeValue="（"+pass+"／"+tot+" 項；比對 v10 改版前之標準答案）"})}}
 function go(){bar();iosTip();sw();if(/[?&]selftest=1/.test(location.search)){var tries=0;(function w(){if(window.TBENG&&TBENG.full&&TBENG.full().st!==0)return selftest();if(++tries<100)setTimeout(w,100);else selftest()})()}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
 })();
